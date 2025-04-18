@@ -5,6 +5,7 @@ import altair as alt
 import openai
 from PIL import Image
 import time
+import os
 
 openai.api_key = st.secrets["api_keys"]["OPEN_API_KEY"]
 
@@ -42,10 +43,17 @@ def app():
         st.session_state.history = []
 
     # Header
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(script_dir, "streamlit", "ryaaText.png")
+
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        ryaaText = Image.open("ryaaText.png").resize((225, 225))
-        st.image(ryaaText, use_container_width=False)
+        try:
+            ryaaText = Image.open(image_path).resize((225, 225))
+            st.image(ryaaText, use_container_width=False)
+        except FileNotFoundError:
+            st.error("Image not found. Make sure 'ryaaText.png' is in the 'streamlit' folder.")
+
 
     # Chat History Scrollable Box
     st.markdown("""

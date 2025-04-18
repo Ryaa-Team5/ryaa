@@ -1,48 +1,103 @@
+import numpy as np
+import pandas as pd
 import streamlit as st
+import altair as alt
+import openai
 from PIL import Image
+import time
 
+openai.api_key = st.secrets["api_keys"]["OPEN_API_KEY"]
 
-# Set page configuration
-st.set_page_config(
-    page_title="Homepage App",
-    page_icon="",
-)
+# Typewriter effect generator
+def typewriter_stream(text, delay=0.02):
+    buffer = ""
+    for char in text:
+        buffer += char
+        yield buffer
+        time.sleep(delay)
 
-# Title of the app
-main_title = "RYAA"
+# Get a reply from OpenAI
+def get_reply(input_string):
+    if "uber" in input_string.lower():
+        return "Uber functionality has not yet been implemented. Stay tuned!"
+    if "what is ryaa" in input_string.lower():
+        return "RYAA (Real-Time Yielding Autonomous Agent) is a project developed as part of a senior project by Jordan Halliburton, Brandon Byrd, Amari Bullock, Mikayla Thornton, Christian Rubio at North Carolina Agricultural and Technical State University."
 
-st.markdown(f"""# {main_title} <span style=color:#2E9BF5><font size=5>Beta</font></span>""",unsafe_allow_html=True)
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": input_string}
+    ]
 
-ryaaText = Image.open("ryaaText.png")
-new_size = (225, 225)
-backgroundColor="#FFA421"
-ryaaText = ryaaText.resize(new_size)
-#st.image(ryaaText)
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
+        return response['choices'][0]['message']['content']
+    except Exception as e:
+        return f"An error occurred: {e}"
 
-home_title = "RYAA"
-home_introduction = "Welcome to RYAA, a project developed for a senior project at North Carolina Agricultural and Technical State University. " \
-"RYAA aims to advance the capabilities of virtual assistants by overcoming a critical limitation in current AI systems. "
+def app():
+    if "history" not in st.session_state:
+        st.session_state.history = []
 
-home_privacy = "To protect your personal information, our system only uses the hashed value of your OpenAI API Key, ensuring complete privacy and anonymity. " \
-"Your API key is only used to access AI functionality during each visit, and is not stored beyond that time. "
+    # Header
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        ryaaText = Image.open("ryaaText.png").resize((225, 225))
+        st.image(ryaaText, use_container_width=False)
 
-home_get_started = "To chat with RYAA please click on the PromptPage in the sidebar."
+    # Chat History Scrollable Box
+    st.markdown("""
+        <style>
+        .scroll-box {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-st.markdown("######")
-st.markdown("### Hello Human")
-st.write(home_introduction)
+    st.markdown("<div class='scroll-box'>", unsafe_allow_html=True)
+    for idx, message in enumerate(st.session_state.history):
+        if message.startswith("user:"):
+            st.markdown(f"**You:** {message[6:]}")
+        elif message.startswith("RYAA:"):
+            # Only stream the latest response
+            if idx == len(st.session_state.history) - 1:
+                st.markdown("**RYAA:**")
+                st.write_stream(typewriter_stream(message[6:]))
+            else:
+                st.markdown(f"**RYAA:** {message[6:]}")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("######")
-st.markdown("### Privacy")
-st.write(home_privacy)
+    # User Input
+    user_input = st.text_area("Input your question:", height=80)
+    if st.button("Submit") and user_input.strip() != "":
+        st.session_state.history.append("user: " + user_input)
+        output = get_reply(user_input)
+        st.session_state.history.append("RYAA: " + output)
 
-st.markdown("######")
-st.markdown("### Get Started")
-st.write(home_get_started)
+        # Limit history length
+        if len(st.session_state.history) > 50:
+            st.session_state.history = st.session_state.history[-50:]
 
+    # Sidebar
+    st.sidebar.toggle("Voice Model")
 
+    ModelOption = st.sidebar.selectbox("Model", ("GPT-3", "GPT-3.5", "GPT-3.5 Turbo", "GPT-4"))
+    st.write("Model:", ModelOption)
 
-    # Initialize session state for "my_input" if not already present
-if "my_input" not in st.session_state:
-    st.session_state["my_input"] = ""
+    LLMOption = st.sidebar.selectbox("Large Language Model", ("OPEN-AI", "..", ".."))
+    st.write("LLM:", LLMOption)
 
+    # Footer
+    st.write("-----------")
+    st.write("This project of the MIS uses generative AI enhanced with specific knowledge on a set of topics...")
+    st.write("©2025 North Carolina Agricultural and Technical State University.")
+
+if __name__ == "__main__":
+    app()

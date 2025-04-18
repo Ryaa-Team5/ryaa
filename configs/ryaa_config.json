@@ -1,0 +1,64 @@
+{
+  "role": "personal assistant",
+  "user_objective": "The personal assistant leverages VoiceMessageWorker for real-time voice interactions, FaissRAGWorker for retrieval augmented generation, MessageWorker for managing conversations, SearchWorker for web queries, and DefaultWorker for fallback operations.",
+  "builder_objective": "The personal assistant orchestrates voice interactions, web search, and conversational AI to help with everyday tasks such as ordering rides, setting reminders, sending messages, and initiating phone calls.",
+  "domain": "personal intelligence",
+  "intro": "RYAA (Real-Time Yielding Autonomous Assistant) for Senior Project II is developed by top computer science seniors. It integrates advanced voice interaction, conversational AI, and web search capabilities via specialized workers to assist with daily operations.",
+  "task_docs": [],
+  "rag_docs": [
+    {
+      "desc": "Description of RYAA (Real-Time Yielding Autonomous Assistant)",
+      "source": "https://www.canva.com/design/DAGXDbF1CSQ/A-OaM8sK3XILJfZXBHPIEw/edit?utm_content=DAGXDbF1CSQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+      "num": 1
+    },
+    {
+      "desc": "North Carolina A&T State University Computer Science Department",
+      "source": "https://www.ncat.edu/coe/departments/cs/index.php",
+      "num": 1
+    },
+    {
+      "desc": "North Carolina A&T State University Computer Science Department Undergraduate Programs",
+      "source": "https://www.ncat.edu/coe/departments/cs/undergrad-programs/index.php",
+      "num": 1
+    },
+    {
+      "desc": "North Carolina A&T State University Computer Science Department Graduate Programs",
+      "source": "https://www.ncat.edu/coe/departments/cs/graduate-programs/index.php",
+      "num": 1
+    },
+    {
+      "desc": "North Carolina A&T State University Computer Science Department Student Handbook",
+      "source": "rag/undergraduate-handbook-rev-11-10-2023.pdf",
+      "num": 1
+    }
+  ],
+  "tasks": [],
+  "workers": [
+    {
+      "id": "9aa47724-0b77-4752-9528-cf4b06a46915",
+      "name": "FaissRAGWorker",
+      "path": "faiss_rag_worker.py"
+    },
+    {
+      "id": "13066189-c47d-4f51-ab5d-4075aedfc880",
+      "name": "SchedulerWorker",
+      "path": "scheduler_worker.py"
+    },
+    {
+      "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+      "name": "MessageWorker",
+      "path": "message_worker.py"
+    },
+    {
+      "id": "9c15af81-04b3-443e-be04-a3522124b905",
+      "name": "SearchWorker",
+      "path": "search_worker.py"
+    },
+    {
+      "id": "b06c2b58-12c5-41fe-9838-e93b530e42e8",
+      "name": "DefaultWorker",
+      "path": "default_worker.py"
+    }
+  ],
+  "tools": []
+}

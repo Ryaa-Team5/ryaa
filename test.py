@@ -19,7 +19,12 @@ LLM_PROVIDER = "openai"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
 USER_PREFIX = "user"
-first = True
+
+model_provider_dict = {
+    "GPT-4.1": ["gpt-4.1", "openai"],
+    "GPT-4o": ["gpt-4o", "openai"],
+    "GPT-4o-mini": ["gpt-4o-mini","openai"]
+}
 
 config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
 env = Env(
@@ -35,49 +40,51 @@ def agent_response(input_dir, history, user_text, parameters, env):
 
     return result['answer'], result['parameters'], result['human_in_the_loop']
 
-def gen_stream(text, delay=0.01):
-    for char in text:
-        yield char
+def gen_stream(text, delay=0.02):
+    test_list = text.split()
+    for word in test_list:
+        yield word + " "
         time.sleep(delay)
+
 # Streamlit GUI
+st.image("./assets/ryaa_logo.svg",width=300)
 
-st.title("RYAA")
-st.caption(
-    ""
-)
+with st.sidebar:
+    st.toggle("Voice")
+    model_option = st.selectbox("Model", ("GPT-4.1", "GPT-4o", "GPT-4o-mini"))
 
-    
-st.sidebar.toggle("Voice")
-ModelOption = st.sidebar.selectbox("Model", ("GPT-4o", "GPT-4o-mini"))
-#st.write("Model:", ModelOption)
-LLMOption = st.sidebar.selectbox("LLM Provider", ("OPEN-AI", "..", ".."))
-#st.write("LLM:", LLMOption)
+model_provider = model_provider_dict[model_option]
 
 
 if "history" not in st.session_state:
     st.session_state.history = []
     st.session_state.params = {}
+
+    # grab configured start response from config
     for node in config['nodes']:
         if node[1].get("type", "") == 'start':
             start_message = node[1]['attribute']["value"]
             break
+
     st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
     
-
+# Chat History Rendering
 for message in st.session_state.history:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        st.write(message["content"])
 
-if prompt := st.chat_input("What is up?"):
+# Handle User Input & Response
+if prompt := st.chat_input("Enter Message:"):
 
     st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
 
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.write(prompt)
 
-    output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, prompt, st.session_state.params, env)
-    st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
+    output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
+                                                           prompt, st.session_state.params, env)
     st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
 
     with st.chat_message("assistant"):
         response = st.write_stream(gen_stream(output))
+        #response = st.write(output)

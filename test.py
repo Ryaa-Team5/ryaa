@@ -32,6 +32,22 @@ model_provider_dict = {
     "gpt-4o-nano": "openai"
 }
 
+def blank_slate():
+    st.session_state.history = []
+    st.session_state.params = {}
+    st.session_state.workers = []
+    st.session_state.empty = True
+
+
+    # derived from Arklex, grab configured start response from config
+    for node in config["nodes"]:
+        if node[1].get("type", "") == "start":
+            start_message = node[1]["attribute"]["value"]
+            break
+
+    st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
+    st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
+
 # env, config derived from Arklex, "run.py" file
 config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
 env = Env(
@@ -60,25 +76,14 @@ with st.sidebar:
             "gpt-4.1-nano"
         )
     )
+    if st.button("Reset", type="primary"):
+        blank_slate()
 
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
-# initialization
+# initialization or reset button
 if "history" not in st.session_state:
-    st.session_state.history = []
-    st.session_state.params = {}
-    st.session_state.workers = []
-    st.session_state.empty = True
-
-
-    # derived from Arklex, grab configured start response from config
-    for node in config["nodes"]:
-        if node[1].get("type", "") == "start":
-            start_message = node[1]["attribute"]["value"]
-            break
-
-    st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
-    st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
+    blank_slate()
 
 if st.session_state.empty == True: # increase space & redundancy w/ logo removal after msg
     st.image(
@@ -96,7 +101,7 @@ for message, workers in zip(st.session_state.history, st.session_state.workers):
             #    st.badge(worker)
 
 # Handle User Input & Response
-if prompt := st.chat_input("Enter Message:"):
+if prompt := st.chat_input("Ask Ryaa"):
     st.session_state.empty = False
 
     st.session_state.history.append({"role": USER_PREFIX, "content": prompt})

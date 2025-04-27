@@ -12,7 +12,7 @@ from arklex.orchestrator.orchestrator import AgentOrg
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
-from sl.utils import agent_response, gen_stream, find_workers#, display_workers
+from sl.utils import agent_response, gen_stream, find_workers, reset_btn#, display_workers
 
 INPUT_DIR = "./agent/customer_service"
 MODEL["model_type_or_path"] = "gpt-4o"
@@ -57,6 +57,11 @@ env = Env(
 )
 
 # Streamlit GUI
+
+# initialization or reset button
+if "history" not in st.session_state:
+    blank_slate()
+
 st.set_page_config(
     page_title="Ryaa",
     page_icon=LOGO_MICRO
@@ -74,18 +79,28 @@ with st.sidebar:
             "gpt-4.1", 
             "gpt-4.1-mini", 
             "gpt-4.1-nano"
-        )
+        ), 
+        help="""
+        *gpt-4.1* - Slowest, Most Intelligent  \n
+        *gpt-4.1-mini* - Faster, Less Intelligent  \n
+        *gpt-4.1-nano* - Fastest, Least Intelligent
+        """
     )
-    if st.button("Reset", type="primary"):
-        blank_slate()
 
+    col1, col2 = st.columns([0.5,2], vertical_alignment='center')
+    with col1:
+        if st.button(":material/refresh:", type="primary", help="Reset Chat"):
+            with col2:
+                with st.spinner(" "):
+                    blank_slate()
+                    time.sleep(0.75)
+
+            
+
+            
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
-# initialization or reset button
-if "history" not in st.session_state:
-    blank_slate()
-
-if st.session_state.empty == True: # increase space & redundancy w/ logo removal after msg
+if st.session_state.empty: # increase space & redundancy w/ logo removal after msg
     st.image(
         LOGO_FULL,
         width=300

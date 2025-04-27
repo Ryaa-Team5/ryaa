@@ -12,20 +12,27 @@ from arklex.orchestrator.orchestrator import AgentOrg
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
+from sl.utils import agent_response, gen_stream, find_workers#, display_workers
 
 INPUT_DIR = "./agent/customer_service"
-MODEL = "gpt-4o"
+MODEL["model_type_or_path"] = "gpt-4o"
 LLM_PROVIDER = "openai"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
 USER_PREFIX = "user"
+LOGO_FULL = "./assets/ryaa_logo.svg"
+LOGO_MINI = "./assets/ryaa_mini.svg"
+LOGO_MICRO = "./assets/ryaa_micro.svg"
+ICON_HUMAN = ":material/face:"
+BLANK = "./assets/blank.svg"
 
 model_provider_dict = {
-    "GPT-4.1": ["gpt-4.1", "openai"],
-    "GPT-4o": ["gpt-4o", "openai"],
-    "GPT-4o-mini": ["gpt-4o-mini","openai"]
+    "gpt-4.1": "openai",
+    "gpt-4.1-mini": "openai",
+    "gpt-4o-nano": "openai"
 }
 
+# env, config derived from Arklex, "run.py" file
 config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
 env = Env(
     tools = config.get("tools", []),
@@ -33,58 +40,82 @@ env = Env(
     slotsfillapi = config["slotfillapi"]
 )
 
-def agent_response(input_dir, history, user_text, parameters, env):
-    data = {"text": user_text, 'chat_history': history, 'parameters': parameters}
-    orchestrator = AgentOrg(config=os.path.join(input_dir, "taskgraph.json"), env=env)
-    result = orchestrator.get_response(data)
-
-    return result['answer'], result['parameters'], result['human_in_the_loop']
-
-def gen_stream(text, delay=0.02):
-    test_list = text.split()
-    for word in test_list:
-        yield word + " "
-        time.sleep(delay)
-
 # Streamlit GUI
-st.image("./assets/ryaa_logo.svg",width=300)
+st.set_page_config(
+    page_title="Ryaa",
+    page_icon=LOGO_MICRO
+)
+st.logo(
+    LOGO_MINI,
+    size="large"
+)
+
 
 with st.sidebar:
     st.toggle("Voice")
-    model_option = st.selectbox("Model", ("GPT-4.1", "GPT-4o", "GPT-4o-mini"))
+    MODEL["model_type_or_path"] = st.selectbox(
+        "Model", (
+            "gpt-4.1", 
+            "gpt-4.1-mini", 
+            "gpt-4.1-nano"
+        )
+    )
 
-model_provider = model_provider_dict[model_option]
+#model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
-
+# initialization
 if "history" not in st.session_state:
     st.session_state.history = []
     st.session_state.params = {}
+    st.session_state.workers = []
+    st.session_state.empty = True
 
-    # grab configured start response from config
-    for node in config['nodes']:
-        if node[1].get("type", "") == 'start':
-            start_message = node[1]['attribute']["value"]
+
+    # derived from Arklex, grab configured start response from config
+    for node in config["nodes"]:
+        if node[1].get("type", "") == "start":
+            start_message = node[1]["attribute"]["value"]
             break
 
     st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
+    st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
+
+if st.session_state.empty == True: # increase space & redundancy w/ logo removal after msg
+    st.image(
+        LOGO_FULL,
+        width=300
+        )   
     
 # Chat History Rendering
-for message in st.session_state.history:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+for message, workers in zip(st.session_state.history, st.session_state.workers):
+    history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
+    with st.chat_message(message["role"], avatar=history_icon):
+            st.write(message["content"])
+            #TODO: do not repeat workers used in message generation
+            #for worker in workers:
+            #    st.badge(worker)
 
 # Handle User Input & Response
 if prompt := st.chat_input("Enter Message:"):
+    st.session_state.empty = False
 
     st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
+    st.session_state.workers.append("")
 
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar=ICON_HUMAN):
         st.write(prompt)
+        
+    with st.spinner("Loading..."):
+        output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
+                                                               prompt, st.session_state.params, env)
+        st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
+        tmp_workers = find_workers(st.session_state.params) 
+        st.session_state.workers.append(tmp_workers)
 
-    output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
-                                                           prompt, st.session_state.params, env)
-    st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
+    with st.chat_message("assistant", avatar=LOGO_MICRO):
+        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
+        st.write_stream(gen_stream(output))
 
-    with st.chat_message("assistant"):
-        response = st.write_stream(gen_stream(output))
-        #response = st.write(output)
+        #display_workers(tmp_workers)   #TODO: Allow horizontal worker display used to generate responses
+
+    st.rerun()

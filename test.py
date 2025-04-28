@@ -12,7 +12,7 @@ from arklex.orchestrator.orchestrator import AgentOrg
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
-from sl.utils import agent_response, gen_stream, find_workers, reset_btn#, display_workers
+from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers
 
 INPUT_DIR = "./agent/customer_service"
 MODEL["model_type_or_path"] = "gpt-4o"
@@ -37,7 +37,6 @@ def blank_slate():
     st.session_state.params = {}
     st.session_state.workers = []
     st.session_state.empty = True
-
 
     # derived from Arklex, grab configured start response from config
     for node in config["nodes"]:
@@ -87,6 +86,7 @@ with st.sidebar:
         """
     )
 
+    # generate reset button w/ loader to the right
     col1, col2 = st.columns([0.5,2], vertical_alignment='center')
     with col1:
         if st.button(":material/refresh:", type="primary", help="Reset Chat"):
@@ -94,10 +94,7 @@ with st.sidebar:
                 with st.spinner(" "):
                     blank_slate()
                     time.sleep(0.75)
-
-            
-
-            
+  
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
 if st.session_state.empty: # increase space & redundancy w/ logo removal after msg
@@ -107,10 +104,12 @@ if st.session_state.empty: # increase space & redundancy w/ logo removal after m
         )   
     
 # Chat History Rendering
+st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
             st.write(message["content"])
+            display_workers(workers)
             #TODO: do not repeat workers used in message generation
             #for worker in workers:
             #    st.badge(worker)
@@ -129,13 +128,12 @@ if prompt := st.chat_input("Ask Ryaa"):
         output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
                                                                prompt, st.session_state.params, env)
         st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
-        tmp_workers = find_workers(st.session_state.params) 
-        st.session_state.workers.append(tmp_workers)
+        workers = gen_worker_list(st.session_state.params) 
+        st.session_state.workers.append(workers)
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
-        st.write_stream(gen_stream(output))
+        st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
+        st.write_stream(gen_stream(output, delay=0.0001))
+        display_workers(workers)   #TODO: Allow horizontal worker display used to generate responses
 
-        #display_workers(tmp_workers)   #TODO: Allow horizontal worker display used to generate responses
-
-    st.rerun()
+    #st.rerun()

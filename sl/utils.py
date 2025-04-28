@@ -38,7 +38,7 @@ def gen_stream(text, delay=0.025):
         time.sleep(delay)
 
 # searches trajectory used by system to determine workers used
-def find_workers(params):
+def gen_worker_list(params):
     trajectory = params["memory"]["trajectory"]
     workers = []
     for instance in trajectory:
@@ -48,5 +48,13 @@ def find_workers(params):
     return workers
 
 # TODO: Allow horizontal worker display used to generate response
-#def display_workers(workers):
-    #pass
+def display_workers(workers):
+    markdown_str = f""
+    worker_set = set(workers)
+    for worker in worker_set:
+        if worker == "planner":
+            continue
+        color = worker_colors.get(worker, "yellow")
+        name = worker_names.get(worker, worker)
+        markdown_str += f":{color}-badge[{name}] "
+    st.markdown(markdown_str)

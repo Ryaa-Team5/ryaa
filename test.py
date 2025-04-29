@@ -102,10 +102,12 @@ with st.sidebar:
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
 # Chat History Rendering
-#st.write(st.session_state.workers)
+st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
+        if "memory" in st.session_state.params:
+            st.write(st.session_state.params["memory"]["trajectory"])
         st.write(message["content"])
         display_workers(workers)
 
@@ -123,12 +125,14 @@ if prompt := st.chat_input("Ask Ryaa"):
         output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
                                                                prompt, st.session_state.params, env)
         st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
-        workers = gen_worker_list(st.session_state.params) 
+        workers, sources = gen_worker_list(st.session_state.params) 
+        #if "FaissRAGWorker" in workers:
+            #source = 
         st.session_state.workers.append(workers)
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
+        st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
         st.write_stream(gen_stream(output, delay=0.0001))
         display_workers(workers)
 
-    st.rerun()
+    #st.rerun()

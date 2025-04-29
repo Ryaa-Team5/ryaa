@@ -14,7 +14,7 @@ from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
 from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers
 
-INPUT_DIR = "./agent/customer_service"
+INPUT_DIR = "./agent/cs_test"
 MODEL["model_type_or_path"] = "gpt-4o"
 LLM_PROVIDER = "openai"
 LOG_LEVEL = "WARNING"
@@ -27,7 +27,7 @@ ICON_HUMAN = ":material/face:"
 BLANK = "./assets/blank.svg"
 
 model_provider_dict = {
-    "gpt-4.1": "openai",
+    "gpt-4o": "openai",
     "gpt-4.1-mini": "openai",
     "gpt-4o-nano": "openai"
 }
@@ -75,7 +75,7 @@ with st.sidebar:
     st.toggle("Voice")
     MODEL["model_type_or_path"] = st.selectbox(
         "Model", (
-            "gpt-4.1", 
+            "gpt-4o", 
             "gpt-4.1-mini", 
             "gpt-4.1-nano"
         ), 

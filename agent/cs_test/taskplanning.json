@@ -1,0 +1,61 @@
+[
+    {
+        "task_name": "Provide information about robot features and specifications",
+        "steps": [
+            "Provide information about robot features and specifications"
+        ]
+    },
+    {
+        "task_name": "Assist with information on renting robots",
+        "steps": [
+            "Use MessageWorker to greet the user and ask how you can assist them with renting robots.",
+            "If the user has specific questions, use FaissRAGWorker to retrieve relevant information from internal documentations about renting robots, such as rental policies, available models, pricing, and terms.",
+            "Use MessageWorker to present the retrieved information to the user, ensuring clarity and addressing any specific questions they have.",
+            "Ask the user if they need further assistance or if they have additional questions. Use MessageWorker for this interaction.",
+            "If the user has more questions or requires additional information, repeat steps 2 and 3 as needed. Otherwise, conclude the interaction with a closing message using MessageWorker."
+        ]
+    },
+    {
+        "task_name": "Provide estimated delivery times for different products",
+        "steps": [
+            "Use MessageWorker to ask the user for the specific product they are inquiring about regarding estimated delivery time.",
+            "Utilize FaissRAGWorker to search the company's internal documentation for delivery time information related to the specified product.",
+            "Use MessageWorker to communicate the estimated delivery time to the user based on the information retrieved.",
+            "Ask the user if they need estimated delivery times for any other products or have additional questions.",
+            "Provide further assistance or information as requested by the user using the appropriate resources."
+        ]
+    },
+    {
+        "task_name": "Assist with troubleshooting and technical support queries",
+        "steps": [
+            "Inquire about the specific technical issue or problem the user is facing to understand the context.",
+            "Use the FaissRAGWorker to search the company's internal documentation for relevant troubleshooting steps or solutions related to the user's issue.",
+            "Provide the user with the relevant troubleshooting steps or solutions found in the documentation.",
+            "Ask the user if the provided solution resolved their issue or if they need further assistance.",
+            "If the issue is unresolved, offer to escalate the problem to a human support agent or provide additional resources as needed."
+        ]
+    },
+    {
+        "task_name": "Provide information about business applications of robots",
+        "steps": [
+            "Provide information about business applications of robots"
+        ]
+    },
+    {
+        "task_name": "Guide through the purchase process for robots",
+        "steps": [
+            "Initiate the conversation by asking the user if they need assistance with purchasing a robot.",
+            "Use FaissRAGWorker to provide information about the available robots, including specifications, pricing, and features, based on the company's internal documentation.",
+            "Ask the user if they have any specific questions or need clarification regarding the robot options provided.",
+            "Address any questions or concerns the user may have using FaissRAGWorker to provide detailed answers from internal documentation.",
+            "Guide the user through the purchase process by explaining the steps needed to complete the transaction, such as payment options and delivery details.",
+            "Use MessageWorker to confirm if the user is ready to proceed with the purchase or if they need further assistance."
+        ]
+    },
+    {
+        "task_name": "Provide information on company policies and terms",
+        "steps": [
+            "Provide information on company policies and terms"
+        ]
+    }
+]

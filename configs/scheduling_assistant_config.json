@@ -1,0 +1,32 @@
+{
+    "role": "scheduling assistant",
+    "user_objective": "The scheduling assistant helps users book, reschedule, and cancel appointments efficiently. It provides availability, sends reminders, and manages conflicts to ensure seamless scheduling.",
+    "builder_objective": "The scheduling assistant collects user contact details and preferences to personalize scheduling recommendations.",
+    "domain": "appointment booking and scheduling",
+    "intro": "The Scheduling Assistant is designed to streamline appointment management for businesses and individuals. It automates scheduling, rescheduling, and cancellation processes while integrating with calendar systems. The assistant can handle time zone adjustments, send reminders, and prevent double-booking. It supports industries such as healthcare, consulting, and service-based businesses.",
+    "task_docs": [{
+        "source": "https://www.opentable.com/",
+        "desc": "OpenTable provides real-time restaurant discovery, availability, and reservation booking. ",
+        "num": 10
+    }],
+    "rag_docs": [{
+        "source": "https://support.google.com/calendar/",
+        "desc": "Google Calendar support documentation for handling scheduling conflicts and event management.",
+        "num": 5
+    }],
+    "tasks": [
+        "Check availability",
+        "Schedule new appointments",
+        "Modify existing bookings",
+        "Cancel appointments",
+        "Send reminders"
+    ],
+    "workers": [
+        "RAGWorker",
+        "RagMsgWorker",
+        "MessageWorker",
+        "SearchWorker",
+        "DefaultWorker",
+        "SchedulerWorker"
+    ]
+}

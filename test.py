@@ -27,7 +27,7 @@ ICON_HUMAN = ":material/face:"
 BLANK = "./assets/blank.svg"
 
 model_provider_dict = {
-    "gpt-4o": "openai",
+    "gpt-4.1": "openai",
     "gpt-4.1-mini": "openai",
     "gpt-4o-nano": "openai"
 }
@@ -48,8 +48,8 @@ def blank_slate():
     st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
 
 # env, config derived from Arklex, "run.py" file
-config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
 os.environ["DATA_DIR"] = INPUT_DIR
+config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
 env = Env(
     tools = config.get("tools", []),
     workers = config.get("workers", []),
@@ -57,11 +57,6 @@ env = Env(
 )
 
 # Streamlit GUI
-
-# initialization or reset button
-if "history" not in st.session_state:
-    blank_slate()
-
 st.set_page_config(
     page_title="Ryaa",
     page_icon=LOGO_MICRO
@@ -71,12 +66,20 @@ st.logo(
     size="large"
 )
 
+logo = st.empty()
+# initialization or reset button
+if "history" not in st.session_state:
+    blank_slate()
+    logo.image(
+        LOGO_FULL,
+        width=300
+    )
 
 with st.sidebar:
     st.toggle("Voice")
     MODEL["model_type_or_path"] = st.selectbox(
         "Model", (
-            "gpt-4o", 
+            "gpt-4.1", 
             "gpt-4.1-mini", 
             "gpt-4.1-nano"
         ), 
@@ -98,12 +101,6 @@ with st.sidebar:
   
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
-if st.session_state.empty: # increase space & redundancy w/ logo removal after msg
-    st.image(
-        LOGO_FULL,
-        width=300
-        )   
-    
 # Chat History Rendering
 #st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
@@ -111,19 +108,17 @@ for message, workers in zip(st.session_state.history, st.session_state.workers):
     with st.chat_message(message["role"], avatar=history_icon):
         st.write(message["content"])
         display_workers(workers)
-            #TODO: do not repeat workers used in message generation
-            #for worker in workers:
-            #    st.badge(worker)
 
 # Handle User Input & Response
 if prompt := st.chat_input("Ask Ryaa"):
     st.session_state.empty = False
     st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
     st.session_state.workers.append("")
-
+    
     with st.chat_message("user", avatar=ICON_HUMAN):
         st.write(prompt)
-
+        logo.empty()
+        
     with st.spinner("Loading..."):
         output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
                                                                prompt, st.session_state.params, env)
@@ -134,6 +129,6 @@ if prompt := st.chat_input("Ask Ryaa"):
     with st.chat_message("assistant", avatar=LOGO_MICRO):
         #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
         st.write_stream(gen_stream(output, delay=0.0001))
-        display_workers(workers)   #TODO: Allow horizontal worker display used to generate responses
+        display_workers(workers)
 
     st.rerun()

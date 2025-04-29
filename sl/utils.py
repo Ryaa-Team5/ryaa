@@ -15,12 +15,14 @@ from arklex.env.env import Env
 
 worker_colors = {
     "MessageWorker": "blue",
-    "FaissRAGWorker" : "green"
+    "FaissRAGWorker" : "green",
+    "SearchWorker": "red"
 }
 
 worker_names = {
     "MessageWorker": "Message",
-    "FaissRAGWorker": "RAG"
+    "FaissRAGWorker": "RAG",
+    "SearchWorker": "Internet Search"
 }
 
 # derived from Arklex, "run.py" file
@@ -39,12 +41,13 @@ def gen_stream(text, delay=0.025):
 
 # searches trajectory used by system to determine workers used
 def gen_worker_list(params):
-    trajectory = params["memory"]["trajectory"]
     workers = []
-    for instance in trajectory:
-        for details in instance: 
-            #st.write(details)       # DEBUG 
-            workers.append(details["info"]["name"])
+    trajectory = params["memory"]["trajectory"]
+    instance = trajectory[-1] # most recent message details
+
+    for details in instance: 
+        #st.write(details)       # DEBUG 
+        workers.append(details["info"]["name"])
     return workers
 
 # TODO: Allow horizontal worker display used to generate response

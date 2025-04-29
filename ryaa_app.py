@@ -84,7 +84,7 @@ def app():
 
     # Sidebar options
     st.sidebar.toggle("Voice Model")
-    ModelOption = st.sidebar.selectbox("Model", ("GPT-3", "GPT-3.5", "GPT-3.5 Turbo", "GPT-4"))
+    ModelOption = st.sidebar.selectbox("Model", ("GPT-4o", "GPT-3.5", "GPT-3.5 Turbo", "GPT-4"))
     st.write("Model:", ModelOption)
 
     LLMOption = st.sidebar.selectbox("Large Language Model", ("OPEN-AI", "..", ".."))

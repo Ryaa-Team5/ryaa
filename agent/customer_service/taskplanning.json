@@ -1,83 +1,85 @@
 [
     {
-        "task_name": "Provide detailed information about Richtech Robotics' products and recommend suitable robots based on customer needs.",
+        "task_name": "Provide detailed information about the specifications, availability, and purchasing options of Richtech Robotics products",
         "steps": [
-            "Initiate the conversation by asking the user about their specific needs or requirements regarding robotics solutions.",
-            "Use FaissRAGWorker to retrieve detailed information from the company's internal documentation about Richtech Robotics' products relevant to the user's needs.",
-            "Present the retrieved product information to the user using MessageWorker, highlighting key features and benefits.",
-            "Ask the user if they have any additional preferences or specific requirements to further refine the recommendations.",
-            "Based on user feedback, use FaissRAGWorker again if necessary to gather more targeted product information or recommendations.",
-            "Provide the user with a list of recommended robots that best match their needs, using MessageWorker to communicate these suggestions.",
-            "Confirm whether the user needs further assistance or if they are satisfied with the recommendations provided."
+            "Use the MessageWorker to greet the user and ask for the specific Richtech Robotics product they are interested in.",
+            "Utilize the FaissRAGWorker to retrieve detailed information about the specifications, availability, and purchasing options for the specified product from the company's internal documentation.",
+            "Use the MessageWorker to provide the retrieved information to the user and ask if they need further details about the product or any other assistance.",
+            "If the user has additional questions or needs clarification, use the FaissRAGWorker again to find the relevant information and provide it via the MessageWorker.",
+            "Once the user is satisfied, use the MessageWorker to offer help with the purchasing process or any other related inquiries."
         ]
     },
     {
-        "task_name": "Assist with placing orders or renting robots, including pricing, rental terms, and availability.",
+        "task_name": "Provide information and support for renting Richtech Robotics products, including ADAM and Scorpion",
         "steps": [
-            "Use MessageWorker to greet the user and inquire about their interest in either placing an order or renting a robot.",
-            "If the user is interested in renting, use FaissRAGWorker to provide information about rental terms, pricing, and availability based on internal documentation.",
-            "If the user is interested in purchasing, use FaissRAGWorker to provide relevant product information, including pricing and availability.",
-            "Use MessageWorker to ask the user if they have any additional questions or need further clarification on the information provided.",
-            "Use MessageWorker to guide the user through the process of placing an order or renting a robot, confirming their selections, and providing next steps for transaction completion."
+            "Use MessageWorker to greet the user and inquire about the specific Richtech Robotics product they are interested in renting, such as ADAM or Scorpion.",
+            "Utilize FaissRAGWorker to retrieve detailed information from the company's internal documentation about the renting process, policies, and specifications of the specified product.",
+            "Use MessageWorker to provide the user with the retrieved information about the product, including rental terms, pricing, and any special requirements.",
+            "Ask the user if they have any additional questions or need further assistance with the rental process, using MessageWorker.",
+            "If the user has further questions, use FaissRAGWorker to find the relevant answers from internal documentation and present them using MessageWorker. Repeat this process until the user's inquiries are fully addressed.",
+            "Once the user is satisfied, use MessageWorker to confirm the next steps for completing the rental process, such as providing contact information or redirecting to a rental form."
         ]
     },
     {
-        "task_name": "Offer technical support and troubleshooting for robot-related issues.",
+        "task_name": "Provide details on delivery timelines and shipping processes for different products",
         "steps": [
-            "Inquire about the specific robot-related issue or technical support needed from the user.",
-            "Use FaissRAGWorker to search the company's internal documentation for troubleshooting steps and solutions related to the issue described by the user.",
-            "Deliver the troubleshooting steps or solution to the user using MessageWorker.",
-            "Ask the user if the provided solution resolved their issue or if they need further assistance.",
-            "If the issue persists, offer to escalate the problem or provide additional troubleshooting steps, using FaissRAGWorker for further information if necessary."
+            "Provide details on delivery timelines and shipping processes for different products"
         ]
     },
     {
-        "task_name": "Manage delivery schedules and installation appointments for robots.",
+        "task_name": "Offer technical support and guidance for integrating Richtech Robotics products into existing setups",
         "steps": [
-            "Ask the user for their order number or relevant details to identify the delivery or installation appointment.",
-            "Utilize FaissRAGWorker to retrieve relevant company documentation on delivery schedules and installation policies to answer initial questions.",
-            "Confirm the user's current delivery or installation schedule using this information, and provide any updates or changes if applicable.",
-            "Ask the user if they need to reschedule or have any specific requirements for delivery or installation.",
-            "If the user wants to reschedule, provide them with available dates and times for rescheduling.",
-            "Confirm the new schedule or any changes with the user, and ensure they understand the next steps.",
-            "Ask if there is anything else the user needs help with regarding their delivery or installation."
+            "Ask the user to describe the specific technical issue or guidance they need help with regarding Richtech Robotics products.",
+            "Use the FaissRAGWorker to retrieve relevant information from the company's internal documentation that addresses the user's issue or provides the necessary guidance.",
+            "Use the MessageWorker to deliver the information retrieved from the FaissRAGWorker to the user, ensuring clarity and relevance to their described issue.",
+            "Ask the user if they need further clarification or have additional questions on the information provided.",
+            "If the user has additional questions or needs further assistance, repeat steps 2 and 3. Otherwise, confirm if the user is satisfied with the provided support and offer any additional help if necessary."
         ]
     },
     {
-        "task_name": "Handle inquiries related to ClouTea, including menu offerings and store information.",
+        "task_name": "Provide troubleshooting steps and maintenance advice for Richtech Robotics products",
         "steps": [
-            "Use the MessageWorker to greet the user and inquire about their specific question or information they need regarding ClouTea.",
-            "Utilize the FaissRAGWorker to search the company's internal documents for information related to the user's query about ClouTea menu offerings or store information.",
-            "If the information is found, use the MessageWorker to deliver the details to the user.",
-            "If the user's query is not fully addressed, clarify with the user using the MessageWorker to ensure all their questions are covered.",
-            "If no relevant information is found using the FaissRAGWorker, employ the DefaultWorker to attempt to retrieve any related information or provide a fallback response.",
-            "Conclude the interaction by asking if there is anything else the user would like to know or need help with, using the MessageWorker."
+            "Ask the user to describe the issue they are experiencing with their Richtech Robotics product.",
+            "Use the FaissRAGWorker to retrieve relevant troubleshooting steps and maintenance advice from the company's internal documentation based on the user's description.",
+            "Provide the user with the troubleshooting steps and maintenance advice retrieved from the documentation.",
+            "Check with the user if the provided solution resolved their issue or if they need further assistance.",
+            "If the issue persists, offer to escalate the problem to a human support agent or suggest additional resources for further help."
         ]
     },
     {
-        "task_name": "Support with billing and payment inquiries, including invoice clarification and payment processing.",
+        "task_name": "Provide information on customization options and assistance in creating tailored solutions with Richtech Robotics products",
         "steps": [
-            "Greet the user and ask them to describe their billing or payment inquiry in detail.",
-            "Use the FaissRAGWorker to retrieve relevant information from the company's internal documentation regarding the user's inquiry, such as invoice details, payment methods, or policy explanations.",
-            "Provide the user with the information gathered in the previous step and ask if it clarifies their issue or if they need further assistance.",
-            "If the user needs further assistance, use the MessageWorker to ask for any additional details required to process payment or clarify the invoice.",
-            "Confirm the resolution of the inquiry with the user and provide instructions on any next steps, such as how to complete a payment or contact support for unresolved issues."
+            "Inquire about the user's specific needs or preferences for product customization and tailored solutions.",
+            "Utilize FaissRAGWorker to retrieve information from the company's internal documentation about available customization options and tailored solutions.",
+            "Present the retrieved customization options and solutions to the user using MessageWorker and ask for any additional specifications or preferences.",
+            "If the user has additional specifications, utilize FaissRAGWorker again to find more detailed information or options, then present these to the user.",
+            "Confirm with the user if the provided solutions meet their needs and offer assistance in proceeding with any transactions or further customization requests."
         ]
     },
     {
-        "task_name": "Schedule product demonstrations and demos for potential customers.",
+        "task_name": "Explain company policies, terms, and conditions related to purchases, rentals, and product usage",
         "steps": [
-            "Use MessageWorker to inquire about the user's interest in a product demonstration, including preferred product and timing.",
-            "Utilize FaissRAGWorker to gather information from the company's internal documentation about available product demonstrations and scheduling policies.",
-            "Use MessageWorker to provide the user with available options for product demonstrations based on the retrieved information.",
-            "Ask the user to confirm their preferred demonstration slot or if they need more information.",
-            "Once the user confirms a slot, use MessageWorker to finalize the scheduling and provide any additional instructions or information they might need."
+            "Greet the user and ask them to specify which policy, term, or condition they need information about.",
+            "Use the FaissRAGWorker to retrieve relevant information from the company's internal documentation based on the user's request.",
+            "Deliver the retrieved information to the user using the MessageWorker.",
+            "Ask the user if they need further clarification or have additional questions regarding the policies, terms, or conditions.",
+            "If the user has more questions, repeat steps 2-4. If the user is satisfied, thank them for their inquiry and offer further assistance if needed."
         ]
     },
     {
-        "task_name": "Provide information on company policies, product warranties, and service agreements.",
+        "task_name": "Share examples of use cases and success stories to illustrate the benefits and applications of Richtech Robotics products",
         "steps": [
-            "Provide information on company policies, product warranties, and service agreements."
+            "Inquire if the user is interested in learning about use cases or success stories of Richtech Robotics products.",
+            "Use the FaissRAGWorker to retrieve examples of use cases and success stories from the company's internal documentation.",
+            "Present the retrieved examples and stories to the user, highlighting the benefits and applications of the products.",
+            "Ask the user if they need more examples or details on any specific product or use case.",
+            "Provide additional information or examples as requested by the user to ensure their understanding and satisfaction."
+        ]
+    },
+    {
+        "task_name": "Provide contact details and options to reach out to Richtech Robotics for additional inquiries and support",
+        "steps": [
+            "Provide contact details and options to reach out to Richtech Robotics for additional inquiries and support"
         ]
     }
 ]

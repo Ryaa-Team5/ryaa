@@ -42,13 +42,21 @@ def gen_stream(text, delay=0.025):
 # searches trajectory used by system to determine workers used
 def gen_worker_list(params):
     workers = []
+    urls = []
     trajectory = params["memory"]["trajectory"]
     instance = trajectory[-1] # most recent message details
 
     for details in instance: 
         #st.write(details)       # DEBUG 
+        worker = details["info"]["name"]
         workers.append(details["info"]["name"])
-    return workers
+        if worker == "FaissRAGWorker":
+            faiss_details = details["steps"][0]
+            for doc in faiss_details["faiss_retrieve"]:
+                url = doc["source"]
+                urls.append(url)
+    print(urls)
+    return workers, urls
 
 # TODO: Allow horizontal worker display used to generate response
 def display_workers(workers):
@@ -61,3 +69,4 @@ def display_workers(workers):
         name = worker_names.get(worker, worker)
         markdown_str += f":{color}-badge[{name}] "
     st.markdown(markdown_str)
+

@@ -49,6 +49,7 @@ def blank_slate():
 
 # env, config derived from Arklex, "run.py" file
 config = json.load(open(os.path.join(INPUT_DIR, "taskgraph.json")))
+os.environ["DATA_DIR"] = INPUT_DIR
 env = Env(
     tools = config.get("tools", []),
     workers = config.get("workers", []),
@@ -104,12 +105,12 @@ if st.session_state.empty: # increase space & redundancy w/ logo removal after m
         )   
     
 # Chat History Rendering
-st.write(st.session_state.workers)
+#st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
-            st.write(message["content"])
-            display_workers(workers)
+        st.write(message["content"])
+        display_workers(workers)
             #TODO: do not repeat workers used in message generation
             #for worker in workers:
             #    st.badge(worker)
@@ -117,13 +118,12 @@ for message, workers in zip(st.session_state.history, st.session_state.workers):
 # Handle User Input & Response
 if prompt := st.chat_input("Ask Ryaa"):
     st.session_state.empty = False
-
     st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
     st.session_state.workers.append("")
 
     with st.chat_message("user", avatar=ICON_HUMAN):
         st.write(prompt)
-        
+
     with st.spinner("Loading..."):
         output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
                                                                prompt, st.session_state.params, env)
@@ -132,8 +132,8 @@ if prompt := st.chat_input("Ask Ryaa"):
         st.session_state.workers.append(workers)
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
+        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
         st.write_stream(gen_stream(output, delay=0.0001))
         display_workers(workers)   #TODO: Allow horizontal worker display used to generate responses
 
-    #st.rerun()
+    st.rerun()

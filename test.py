@@ -12,11 +12,10 @@ from arklex.orchestrator.orchestrator import AgentOrg
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
-from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers
+from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers, get_model_provider
 
 INPUT_DIR = "./agent/cs_test"
 MODEL["model_type_or_path"] = "gpt-4o"
-LLM_PROVIDER = "openai"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
 USER_PREFIX = "user"
@@ -25,12 +24,16 @@ LOGO_MINI = "./assets/ryaa_mini.svg"
 LOGO_MICRO = "./assets/ryaa_micro.svg"
 ICON_HUMAN = ":material/face:"
 BLANK = "./assets/blank.svg"
+models = (
+            "gpt-4.1", 
+            "gpt-4.1-mini", 
+            "gpt-4.1-nano",
+            "gemini-2.0-flash",
+            "gemini-2.5-flash-preview-04-17",
+            "gemini-2.5-pro-preview-03-25",
+            "claude-3-7-sonnet-20250219"
+        )
 
-model_provider_dict = {
-    "gpt-4.1": "openai",
-    "gpt-4.1-mini": "openai",
-    "gpt-4o-nano": "openai"
-}
 
 def blank_slate():
     st.session_state.history = []
@@ -77,19 +80,17 @@ if "history" not in st.session_state:
 
 with st.sidebar:
     st.toggle("Voice")
-    MODEL["model_type_or_path"] = st.selectbox(
-        "Model", (
-            "gpt-4.1", 
-            "gpt-4.1-mini", 
-            "gpt-4.1-nano"
-        ), 
+
+    model_option = st.selectbox(
+        "Model", models, 
         help="""
         *gpt-4.1* - Slowest, Most Intelligent  \n
         *gpt-4.1-mini* - Faster, Less Intelligent  \n
         *gpt-4.1-nano* - Fastest, Least Intelligent
         """
     )
-
+    MODEL["model_type_or_path"] = model_option
+    MODEL["llm_provider"] = get_model_provider(model_option)
     # generate reset button w/ loader to the right
     col1, col2 = st.columns([0.5,2], vertical_alignment='center')
     with col1:
@@ -98,16 +99,16 @@ with st.sidebar:
                 with st.spinner(" "):
                     blank_slate()
                     time.sleep(0.75)
-  
+
 #model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
 
 # Chat History Rendering
-st.write(st.session_state.workers)
+#st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
-        if "memory" in st.session_state.params:
-            st.write(st.session_state.params["memory"]["trajectory"])
+        #if "memory" in st.session_state.params:
+            #st.write(st.session_state.params["memory"]["trajectory"])
         st.write(message["content"])
         display_workers(workers)
 
@@ -126,13 +127,19 @@ if prompt := st.chat_input("Ask Ryaa"):
                                                                prompt, st.session_state.params, env)
         st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
         workers, sources = gen_worker_list(st.session_state.params) 
-        #if "FaissRAGWorker" in workers:
-            #source = 
+
         st.session_state.workers.append(workers)
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
+        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
         st.write_stream(gen_stream(output, delay=0.0001))
-        display_workers(workers)
+        detail_col1, detail_col2 = st.columns([0.5,2], vertical_alignment='center')
+        with detail_col1:
+            display_workers(workers)
+            if "FaissRAGWorker" in workers:
+                with detail_col2:
+                    with st.expander("Sources Used"):
+                        for source in sources:
+                            st.write(source)
 
     #st.rerun()

@@ -70,3 +70,10 @@ def display_workers(workers):
         markdown_str += f":{color}-badge[{name}] "
     st.markdown(markdown_str)
 
+def get_model_provider(model: str):  
+    if "gpt" in model:
+        return "openai"
+    if "gemini" in model:
+        return "gemini"
+    if "claude" in model:
+        return "anthropic"

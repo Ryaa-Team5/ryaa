@@ -41,14 +41,14 @@ def blank_slate():
     st.session_state.workers = []
     st.session_state.empty = True
 
-    # derived from Arklex, grab configured start response from config
-    for node in config["nodes"]:
-        if node[1].get("type", "") == "start":
-            start_message = node[1]["attribute"]["value"]
-            break
-
-    st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
-    st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
+    ## derived from Arklex, grab configured start response from config
+    #for node in config["nodes"]:
+    #    if node[1].get("type", "") == "start":
+    #        start_message = node[1]["attribute"]["value"]
+    #        break
+#
+    #st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
+    #st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
 
 # env, config derived from Arklex, "run.py" file
 os.environ["DATA_DIR"] = INPUT_DIR
@@ -68,15 +68,17 @@ st.logo(
     LOGO_MINI,
     size="large"
 )
-
+st.container(height=400)
 logo = st.empty()
 # initialization or reset button
 if "history" not in st.session_state:
     blank_slate()
+    
     logo.image(
         LOGO_FULL,
         width=300
     )
+    
 
 with st.sidebar:
     st.toggle("Voice")
@@ -100,8 +102,6 @@ with st.sidebar:
                     blank_slate()
                     time.sleep(0.75)
 
-#model_provider = model_provider_dict[model_option] #TODO: allow alternative API selection
-
 # Chat History Rendering
 #st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
@@ -115,20 +115,19 @@ for message, workers in zip(st.session_state.history, st.session_state.workers):
 # Handle User Input & Response
 if prompt := st.chat_input("Ask Ryaa"):
     st.session_state.empty = False
-    st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
-    st.session_state.workers.append("")
     
     with st.chat_message("user", avatar=ICON_HUMAN):
         st.write(prompt)
         logo.empty()
-        
+    st.session_state.history.append({"role": USER_PREFIX, "content": prompt})
+    st.session_state.workers.append("")    
     with st.spinner("Loading..."):
         output, st.session_state.params, hitl = agent_response(INPUT_DIR, st.session_state.history, 
                                                                prompt, st.session_state.params, env)
-        st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
+        
         workers, sources = gen_worker_list(st.session_state.params) 
 
-        st.session_state.workers.append(workers)
+        
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
         #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
@@ -141,5 +140,9 @@ if prompt := st.chat_input("Ask Ryaa"):
                     with st.expander("Sources Used"):
                         for source in sources:
                             st.write(source)
+
+    st.session_state.history.append({"role": WORKER_PREFIX, "content": output})
+    st.session_state.workers.append(workers)
+
 
     #st.rerun()

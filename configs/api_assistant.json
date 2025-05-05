@@ -1,0 +1,32 @@
+{
+    "role": "API Assistant",
+    "user_objective": "The assistant helps users understand and interact with web APIs. It uses provided documentation (via RAG) to learn how an API works and then makes calls to that API based on user requests.",
+    "builder_objective": "The assistant ensures API calls are made correctly based on the retrieved documentation and user specifications.",
+    "domain": "Web APIs",
+    "intro": "This assistant specializes in interacting with web APIs, particularly the Alpha Vantage API (documented at https://www.alphavantage.co/documentation/). It can look up documentation to understand endpoints, required parameters, and response formats, then execute API calls accordingly using the available API worker.",
+    "task_docs": [],
+    "rag_docs": [{
+        "source": "https://www.alphavantage.co/documentation/",
+        "desc": "Alpha Vantage API documentation used by the RAG worker to understand API endpoints, parameters, and usage for the API worker.",
+        "num": 1 
+    }],
+    "tasks": [],
+    "workers": [
+      {
+        "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef", 
+        "name": "FaissRAGWorker", 
+        "path": "faiss_rag_worker.py" 
+      },
+      {
+        "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0", 
+        "name": "RequestWorker", 
+        "path": "api_worker.py" 
+      },
+      {
+        "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01", 
+        "name": "MessageWorker", 
+        "path": "message_worker.py"
+      }
+    ],
+    "tools": []
+  }

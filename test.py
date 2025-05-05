@@ -2,10 +2,13 @@ import os
 import json
 import argparse
 import time
+import requests
 import logging
 import streamlit as st
 from dotenv import load_dotenv
 from pprint import pprint
+import pandas as pd
+import io
 
 from arklex.utils.utils import init_logger
 from arklex.orchestrator.orchestrator import AgentOrg
@@ -14,7 +17,7 @@ from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
 from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers, get_model_provider
 
-INPUT_DIR = "./agent/cs_test"
+INPUT_DIR = "./agent/api_assistant"
 MODEL["model_type_or_path"] = "gpt-4o"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
@@ -68,7 +71,7 @@ st.logo(
     LOGO_MINI,
     size="large"
 )
-st.container(height=400)
+#st.container(height=400)
 logo = st.empty()
 # initialization or reset button
 if "history" not in st.session_state:
@@ -107,10 +110,17 @@ with st.sidebar:
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
-        #if "memory" in st.session_state.params:
-            #st.write(st.session_state.params["memory"]["trajectory"])
+        if "memory" in st.session_state.params:
+            st.write(st.session_state.params["memory"]["trajectory"])
         st.write(message["content"])
         display_workers(workers)
+    
+if st.button("Stock Test"):
+    url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=DQLPBTSGN59NT7XW'
+    r = requests.get(url)
+    data = r.json()
+    st.write(data)
+
 
 # Handle User Input & Response
 if prompt := st.chat_input("Ask Ryaa"):
@@ -130,8 +140,9 @@ if prompt := st.chat_input("Ask Ryaa"):
         
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        #st.write(st.session_state.params["memory"]["trajectory"]) # DEBUG
-        st.write_stream(gen_stream(output, delay=0.0001))
+        st.write(st.session_state.params["memory"]["trajectory"]) # 
+        st.write(output)
+        #st.write_stream(gen_stream(output, delay=0.0001))
         detail_col1, detail_col2 = st.columns([0.5,2], vertical_alignment='center')
         with detail_col1:
             display_workers(workers)

@@ -1,0 +1,787 @@
+{
+    "nodes": [
+        [
+            "0",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! I'm your API Assistant. I can help you understand and interact with web APIs. Let me know what API you\u2019re interested in or what task you\u2019d like to accomplish, and I\u2019ll guide you through the process using the available documentation.",
+                    "task": "start message",
+                    "directed": false
+                },
+                "limit": 1,
+                "type": "start"
+            }
+        ],
+        [
+            "1",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Which API endpoint, feature, or concept would you like to learn about, or is there a specific aspect you need help with?",
+                    "task": "Ask the user which API endpoint, feature, or concept they would like to learn about, or what aspect they are seeking help with.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "2",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "According to our documentation, the /users endpoint requires authentication and allows you to retrieve user details by specifying a user_id parameter.",
+                    "task": "Use FaissRAGWorker to retrieve and explain relevant documentation sections for the specified endpoint, parameters, usage, or response format. Clarify the main points to the user using MessageWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "3",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Would you like to see example requests and responses or further details about this endpoint or its parameters?",
+                    "task": "Ask the user if they would like to see examples of requests/responses, or further details about that endpoint or parameter.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "4",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_documentation_lookup"
+                },
+                "attribute": {
+                    "value": "17",
+                    "task": "If requested, provide parsed examples from the documentation and explain each part (such as endpoint, required parameters, and sample response), referencing api_documentation_lookup for accuracy.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "5",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Do you have any follow-up questions about usage, errors, or integrating this API endpoint?",
+                    "task": "Invite the user to ask any follow-up questions regarding usage, errors, or integration, and continue the cycle as needed.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "6",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Which API call would you like to make? If you're unsure, I can explain the available endpoints and required parameters.",
+                    "task": "Ask the user which API call they want to make and what parameters or information they want to use. If the user is unsure, offer to explain available endpoints or required parameters using the documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "7",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_documentation_lookup"
+                },
+                "attribute": {
+                    "value": "17",
+                    "task": "Look up the relevant sections of the API documentation to clarify the correct endpoint, required parameters, request structure, and expected responses. Share any clarifying questions or details with the user as needed.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "8",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_request_construction"
+                },
+                "attribute": {
+                    "value": "20",
+                    "task": "Collect or confirm all necessary information/parameters from the user and validate that all required information is provided for the API call as described in the documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "9",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Construct the appropriate API request using the validated parameters and send the request to the API endpoint.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "10",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_response_parsing_and_interpretation"
+                },
+                "attribute": {
+                    "value": "24",
+                    "task": "Parse and interpret the API response. Present the relevant results and key information to the user in an understandable format. If the response is unclear or there are errors, provide explanations or troubleshooting guidance by referencing the documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "11",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Do you need further assistance, want to make another API call, or need clarification about the result?",
+                    "task": "Ask if the user needs further help, wants to make another API call, or needs clarification about the result.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "12",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Please provide the API response data or error message you'd like help understanding or debugging.",
+                    "task": "Ask the user to provide the API response data or error message they would like help understanding or debugging.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "13",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_response_parsing_and_interpretation"
+                },
+                "attribute": {
+                    "value": "24",
+                    "task": "Parse the provided API response or error and identify its key details (status code, message, payload, etc.), then check the API documentation using FaissRAGWorker to retrieve relevant information.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "14",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "The error code 400 typically means there is a problem with the request payload. According to the API documentation, this can happen if required fields are missing or incorrectly formatted.",
+                    "task": "Diagnose and explain the API response or error to the user by interpreting documentation and response details, highlighting the meaning, possible causes, and any relevant context.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "15",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "api_error_analysis_and_troubleshooting"
+                },
+                "attribute": {
+                    "value": "27",
+                    "task": "If an error or issue is present, suggest actionable next steps or troubleshooting steps to resolve the problem, referencing relevant portions of the API documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "16",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Do you need further clarification or have another API response or error you'd like me to help diagnose?",
+                    "task": "Ask the user if they need further clarification or have additional API responses or errors to diagnose.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "17",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "Based on your query, the relevant section of the API documentation covers the authentication endpoints.",
+                    "task": "Identify which part of the API documentation is relevant to the user's query or intended API action.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "18",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "Here is the documentation for the /users/login endpoint: [documentation details]",
+                    "task": "Retrieve the documentation section for the specified endpoint or feature.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "19",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "The /users/login endpoint requires the following parameters: username (required), password (required). The response returns a JSON object with 'token' and 'expires_in' fields.",
+                    "task": "Parse out endpoint paths, parameter details, required/optional fields, and response format/templates.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "20",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "According to our documentation, the required parameters for this API endpoint are 'user_id' and 'status', while 'priority' is optional.",
+                    "task": "Determine required and optional parameters for the target API endpoint.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "21",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Could you please provide the 'user_id' and 'status' values, or would you like to use the default options?",
+                    "task": "Obtain parameter values from the user or default/documented values.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "22",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Validate that all required parameters are provided and match expected format/type.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "23",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Construct the API request URL or payload using validated parameters.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "24",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Parse and validate the structure of the API's response data (e.g., JSON parsing).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "25",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Identify if the response contains data, error codes, or warning messages.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "26",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Extract relevant information for the user, such as main results or error explanations.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "27",
+            {
+                "resource": {
+                    "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Inspect the response for explicit errors, invalid fields, or missing data.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "28",
+            {
+                "resource": {
+                    "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Check API documentation for error code meaning or troubleshooting advice.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "29",
+            {
+                "resource": {
+                    "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "It appears there was an error submitting your request. Please check your details or try again later.",
+                    "task": "Translate error or warning into actionable feedback or next steps for the user.",
+                    "directed": false
+                }
+            }
+        ]
+    ],
+    "edges": [
+        [
+            "0",
+            "1",
+            {
+                "intent": "User wants to understand how an API works",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "1",
+            "2",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "2",
+            "3",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "3",
+            "4",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "4",
+            "5",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "6",
+            {
+                "intent": "User wants to execute a specific API call",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "6",
+            "7",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "7",
+            "8",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "8",
+            "9",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "9",
+            "10",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "10",
+            "11",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "12",
+            {
+                "intent": "User needs help interpreting API responses or troubleshooting errors",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "12",
+            "13",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "13",
+            "14",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "14",
+            "15",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "15",
+            "16",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "17",
+            "18",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "17",
+            "19",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "20",
+            "21",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "20",
+            "22",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "20",
+            "23",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "24",
+            "25",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "24",
+            "26",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "27",
+            "28",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "27",
+            "29",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ]
+    ],
+    "role": "API Assistant",
+    "user_objective": "The assistant helps users understand and interact with web APIs. It uses provided documentation (via RAG) to learn how an API works and then makes calls to that API based on user requests.",
+    "builder_objective": "The assistant ensures API calls are made correctly based on the retrieved documentation and user specifications.",
+    "domain": "Web APIs",
+    "intro": "This assistant specializes in interacting with web APIs, particularly the Alpha Vantage API (documented at https://www.alphavantage.co/documentation/). It can look up documentation to understand endpoints, required parameters, and response formats, then execute API calls accordingly using the available API worker.",
+    "task_docs": [],
+    "rag_docs": [
+        {
+            "source": "https://www.alphavantage.co/documentation/",
+            "desc": "Alpha Vantage API documentation used by the RAG worker to understand API endpoints, parameters, and usage for the API worker.",
+            "num": 1
+        }
+    ],
+    "tasks": [],
+    "workers": [
+        {
+            "id": "a1e8e5f6-7b8c-4d9e-a0f1-234567abcdef",
+            "name": "FaissRAGWorker",
+            "path": "faiss_rag_worker.py"
+        },
+        {
+            "id": "b2f9e6a7-8c9d-5e0f-b1a2-345678bcdef0",
+            "name": "RequestWorker",
+            "path": "api_worker.py"
+        },
+        {
+            "id": "c3a0f7b8-9d0e-6f1a-c2b3-456789cdef01",
+            "name": "MessageWorker",
+            "path": "message_worker.py"
+        }
+    ],
+    "tools": [],
+    "nluapi": "",
+    "slotfillapi": ""
+}

@@ -1,0 +1,33 @@
+[
+    {
+        "task_name": "Explain API endpoints, parameters, usage instructions, and response formats using the documentation",
+        "steps": [
+            "Ask the user which API endpoint, feature, or concept they would like to learn about, or what aspect they are seeking help with.",
+            "Use FaissRAGWorker to retrieve and explain relevant documentation sections for the specified endpoint, parameters, usage, or response format. Clarify the main points to the user using MessageWorker.",
+            "Ask the user if they would like to see examples of requests/responses, or further details about that endpoint or parameter.",
+            "If requested, provide parsed examples from the documentation and explain each part (such as endpoint, required parameters, and sample response), referencing api_documentation_lookup for accuracy.",
+            "Invite the user to ask any follow-up questions regarding usage, errors, or integration, and continue the cycle as needed."
+        ]
+    },
+    {
+        "task_name": "Make a requested API call based on provided parameters and return the results",
+        "steps": [
+            "Ask the user which API call they want to make and what parameters or information they want to use. If the user is unsure, offer to explain available endpoints or required parameters using the documentation.",
+            "Look up the relevant sections of the API documentation to clarify the correct endpoint, required parameters, request structure, and expected responses. Share any clarifying questions or details with the user as needed.",
+            "Collect or confirm all necessary information/parameters from the user and validate that all required information is provided for the API call as described in the documentation.",
+            "Construct the appropriate API request using the validated parameters and send the request to the API endpoint.",
+            "Parse and interpret the API response. Present the relevant results and key information to the user in an understandable format. If the response is unclear or there are errors, provide explanations or troubleshooting guidance by referencing the documentation.",
+            "Ask if the user needs further help, wants to make another API call, or needs clarification about the result."
+        ]
+    },
+    {
+        "task_name": "Diagnose and explain API response data or errors to help users understand results or debug issues",
+        "steps": [
+            "Ask the user to provide the API response data or error message they would like help understanding or debugging.",
+            "Parse the provided API response or error and identify its key details (status code, message, payload, etc.), then check the API documentation using FaissRAGWorker to retrieve relevant information.",
+            "Diagnose and explain the API response or error to the user by interpreting documentation and response details, highlighting the meaning, possible causes, and any relevant context.",
+            "If an error or issue is present, suggest actionable next steps or troubleshooting steps to resolve the problem, referencing relevant portions of the API documentation.",
+            "Ask the user if they need further clarification or have additional API responses or errors to diagnose."
+        ]
+    }
+]

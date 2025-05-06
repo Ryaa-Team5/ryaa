@@ -1,24 +1,24 @@
 import os
 import json
-import argparse
 import time
-import requests
 import logging
 import streamlit as st
 from dotenv import load_dotenv
 from pprint import pprint
 import pandas as pd
 import io
+from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers, get_model_provider, load_secrets
+load_secrets()
 
 from arklex.utils.utils import init_logger
 from arklex.orchestrator.orchestrator import AgentOrg
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS
 from arklex.env.env import Env
-from sl.utils import agent_response, gen_stream, gen_worker_list, display_workers, get_model_provider
 
-INPUT_DIR = "./agent/api_assistant"
-MODEL["model_type_or_path"] = "gpt-4o"
+
+INPUT_DIR = "./agent/api_assistant2"
+MODEL["model_type_or_path"] = "gpt-4.1"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
 USER_PREFIX = "user"
@@ -44,14 +44,14 @@ def blank_slate():
     st.session_state.workers = []
     st.session_state.empty = True
 
-    ## derived from Arklex, grab configured start response from config
-    #for node in config["nodes"]:
-    #    if node[1].get("type", "") == "start":
-    #        start_message = node[1]["attribute"]["value"]
-    #        break
-#
-    #st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
-    #st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
+    # derived from Arklex, grab configured start response from config
+    for node in config["nodes"]:
+        if node[1].get("type", "") == "start":
+            start_message = node[1]["attribute"]["value"]
+            break
+
+    st.session_state.history.append({"role": WORKER_PREFIX, "content": start_message})
+    st.session_state.workers.append("")  # ensure worker list maintains equivalent index to history
 
 # env, config derived from Arklex, "run.py" file
 os.environ["DATA_DIR"] = INPUT_DIR
@@ -71,7 +71,7 @@ st.logo(
     LOGO_MINI,
     size="large"
 )
-#st.container(height=400)
+
 logo = st.empty()
 # initialization or reset button
 if "history" not in st.session_state:
@@ -84,7 +84,8 @@ if "history" not in st.session_state:
     
 
 with st.sidebar:
-    st.toggle("Voice")
+    voice = st.toggle("Voice")
+    debug = st.toggle("Debug Mode", value=False)
 
     model_option = st.selectbox(
         "Model", models, 
@@ -106,21 +107,15 @@ with st.sidebar:
                     time.sleep(0.75)
 
 # Chat History Rendering
-#st.write(st.session_state.workers)
+if debug: 
+    st.write(st.session_state.workers)
 for message, workers in zip(st.session_state.history, st.session_state.workers):
     history_icon = LOGO_MICRO if message["role"] == "assistant" else ICON_HUMAN
     with st.chat_message(message["role"], avatar=history_icon):
-        if "memory" in st.session_state.params:
+        if debug and "memory" in st.session_state.params:
             st.write(st.session_state.params["memory"]["trajectory"])
         st.write(message["content"])
         display_workers(workers)
-    
-if st.button("Stock Test"):
-    url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=DQLPBTSGN59NT7XW'
-    r = requests.get(url)
-    data = r.json()
-    st.write(data)
-
 
 # Handle User Input & Response
 if prompt := st.chat_input("Ask Ryaa"):
@@ -140,7 +135,8 @@ if prompt := st.chat_input("Ask Ryaa"):
         
 
     with st.chat_message("assistant", avatar=LOGO_MICRO):
-        st.write(st.session_state.params["memory"]["trajectory"]) # 
+        if debug: 
+            st.write(st.session_state.params["memory"]["trajectory"]) # 
         st.write(output)
         #st.write_stream(gen_stream(output, delay=0.0001))
         detail_col1, detail_col2 = st.columns([0.5,2], vertical_alignment='center')

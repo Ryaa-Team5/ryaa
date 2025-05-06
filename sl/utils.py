@@ -16,13 +16,15 @@ from arklex.env.env import Env
 worker_colors = {
     "MessageWorker": "blue",
     "FaissRAGWorker" : "green",
-    "SearchWorker": "red"
+    "SearchWorker": "red",
+    "RequestWorker": "yellow"
 }
 
 worker_names = {
     "MessageWorker": "Message",
     "FaissRAGWorker": "RAG",
-    "SearchWorker": "Internet Search"
+    "SearchWorker": "Internet Search",
+    "RequestWorker": "User API"
 }
 
 # derived from Arklex, "run.py" file
@@ -70,10 +72,14 @@ def display_workers(workers):
         markdown_str += f":{color}-badge[{name}] "
     st.markdown(markdown_str)
 
-def get_model_provider(model: str):  
+def get_model_provider(model):  
     if "gpt" in model:
         return "openai"
     if "gemini" in model:
         return "gemini"
     if "claude" in model:
         return "anthropic"
+    
+def load_secrets():
+    for name, key in st.secrets.api_keys.items():
+        os.environ[name] = key

@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from pprint import pprint
 import pandas as pd
 import io
+from sl.audio_utils import transcribe_audio, tts_conversion
 from sl.utils import (
     agent_response,
     gen_stream,
@@ -32,7 +33,7 @@ from sl.utils import (
 )
 
 
-INPUT_DIR = "./agent/ryaa2"
+INPUT_DIR = "./agent/ryaa"
 MODEL["model_type_or_path"] = "gpt-4.1"
 LOG_LEVEL = "WARNING"
 WORKER_PREFIX = "assistant"
@@ -94,6 +95,7 @@ if "history" not in st.session_state:
 
 with st.sidebar:
     voice = st.toggle("Voice")
+    voice_output = st.toggle("Voice Output")
     debug = st.toggle("Debug Mode", value=False)
 
     model_option = st.selectbox(
@@ -127,8 +129,21 @@ for message, workers in zip(st.session_state.history, st.session_state.workers):
         st.write(message["content"])
         display_workers(workers)
 
-# Handle User Input & Response
-if prompt := st.chat_input("Ask Ryaa"):
+# Unified input handling
+if voice:
+    # Capture audio input
+    audio_data = st.audio_input("Record your question for Ryaa")
+    if audio_data is not None:
+        # Placeholder for processing audio data to text
+        prompt = transcribe_audio(audio_data)
+        # prompt = (
+        #     "Transcribed text from audio"  # Replace with actual transcription logic
+        # )
+else:
+    # Capture text input
+    prompt = st.chat_input("Ask Ryaa")
+
+if prompt:
     st.session_state.empty = False
 
     with st.chat_message("user", avatar=ICON_HUMAN):
@@ -148,6 +163,10 @@ if prompt := st.chat_input("Ask Ryaa"):
             st.write(st.session_state.params["memory"]["trajectory"])  #
         st.write(output)
         # st.write_stream(gen_stream(output, delay=0.0001))
+        if voice_output:
+            audio_output = tts_conversion(output)
+            st.audio(audio_output, autoplay=True)
+
         detail_col1, detail_col2 = st.columns([0.5, 2], vertical_alignment="center")
         with detail_col1:
             display_workers(workers)

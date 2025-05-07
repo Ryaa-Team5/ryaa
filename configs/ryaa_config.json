@@ -1,6 +1,6 @@
 {
   "role": "personal assistant",
-  "user_objective": "The personal assistant leverages VoiceMessageWorker for real-time voice interactions, FaissRAGWorker for retrieval augmented generation, MessageWorker for managing conversations, SearchWorker for web queries, and DefaultWorker for fallback operations.",
+  "user_objective": "The personal assistant leverages FaissRAGWorker for retrieval augmented generation, MessageWorker for managing conversations, SearchWorker for web queries, SchedulerWorker for scheduling tasks, and DefaultWorker for fallback operations.",
   "builder_objective": "The personal assistant orchestrates voice interactions, web search, and conversational AI to help with everyday tasks such as ordering rides, setting reminders, sending messages, and initiating phone calls.",
   "domain": "personal intelligence",
   "intro": "RYAA (Real-Time Yielding Autonomous Assistant) for Senior Project II is developed by top computer science seniors. It integrates advanced voice interaction, conversational AI, and web search capabilities via specialized workers to assist with daily operations.",

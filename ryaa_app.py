@@ -10,11 +10,13 @@ import os
 # Set your OpenAI key from secrets
 openai.api_key = st.secrets["api_keys"]["OPEN_API_KEY"]
 
+
 # Typewriter effect generator
 def typewriter_stream(text, delay=0.02):
     for char in text:
         yield char
         time.sleep(delay)
+
 
 # Get a reply from OpenAI
 def get_reply(input_string):
@@ -25,17 +27,17 @@ def get_reply(input_string):
 
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": input_string}
+        {"role": "user", "content": input_string},
     ]
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages
+            model="gpt-3.5-turbo", messages=messages
         )
-        return response['choices'][0]['message']['content']
+        return response["choices"][0]["message"]["content"]
     except Exception as e:
         return f"An error occurred: {e}"
+
 
 def app():
     if "history" not in st.session_state:
@@ -51,7 +53,9 @@ def app():
             ryaaText = Image.open(image_path).resize((225, 225))
             st.image(ryaaText, use_container_width=False)
         except FileNotFoundError:
-            st.error("Image not found. Make sure 'ryaaText.png' is in the 'streamlit' folder.")
+            st.error(
+                "Image not found. Make sure 'ryaaText.png' is in the 'streamlit' folder."
+            )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -84,7 +88,9 @@ def app():
 
     # Sidebar options
     st.sidebar.toggle("Voice Model")
-    ModelOption = st.sidebar.selectbox("Model", ("GPT-4o", "GPT-3.5", "GPT-3.5 Turbo", "GPT-4"))
+    ModelOption = st.sidebar.selectbox(
+        "Model", ("GPT-4o", "GPT-3.5", "GPT-3.5 Turbo", "GPT-4")
+    )
     st.write("Model:", ModelOption)
 
     LLMOption = st.sidebar.selectbox("Large Language Model", ("OPEN-AI", "..", ".."))
@@ -92,8 +98,11 @@ def app():
 
     # Footer
     st.write("-----------")
-    st.write("This project of the MIS uses generative AI enhanced with specific knowledge on a set of topics...")
+    st.write(
+        "This project of the MIS uses generative AI enhanced with specific knowledge on a set of topics..."
+    )
     st.write("©2025 North Carolina Agricultural and Technical State University.")
+
 
 if __name__ == "__main__":
     app()

@@ -1,5 +1,5 @@
 # Streamlit Secrets
-secrets.toml
+.streamlit/secrets.toml
 
 # MacOS files
 .DS_Store

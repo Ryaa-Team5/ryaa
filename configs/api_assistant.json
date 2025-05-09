@@ -1,10 +1,9 @@
 {
   "role": "AI Personal Assistant with API Integration",
-  "user_objective": "The assistant provides personalized help by intelligently routing requests to specialized workers: using SearchWorker for web searches, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation management.",
-  "builder_objective": "This assistant serves as a router that activates the appropriate worker based on user intent - directing search queries to SearchWorker, API requests to RequestWorker, information retrieval to FaissRAGWorker, and maintaining conversation context with MessageWorker.",
-  "domain": "Personal Intelligence & Web API Integration",
-  "intro": "RYAA (Real-Time Yielding Autonomous Assistant) is an advanced personal assistant developed by top computer science seniors at North Carolina A&T State University. It acts as an intelligent router that directs user requests to specialized workers: using SearchWorker for web queries, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation context.",
-  "task_docs": [],
+  "user_objective": "The assistant routes user requests to specialized workers: SearchWorker for web searches, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for general conversation.",
+  "builder_objective": "The assistant aims to correctly identify user intent and route to the appropriate worker, especially ensuring proper use of the SearchWorker for web queries and RequestWorker for API calls.",
+  "domain": "Personal Assistance",
+  "intro": "RYAA (Real-Time Yielding Autonomous Assistant) is a personal assistant developed by Computer Science students at North Carolina A&T State University that integrates web search, API connectivity, document retrieval, and natural conversation.",
   "rag_docs": [
     {
       "desc": "Description of RYAA (Real-Time Yielding Autonomous Assistant)",
@@ -33,42 +32,10 @@
     }
   ],
   "tasks": [
-    {
-      "intent": "search for information on the web",
-      "task": "Route web search requests directly to SearchWorker"
-    },
-    {
-      "intent": "search web",
-      "task": "Route web search requests directly to SearchWorker"
-    },
-    {
-      "intent": "find information online",
-      "task": "Route web search requests directly to SearchWorker"
-    },
-    {
-      "intent": "call an api",
-      "task": "Route API call requests directly to RequestWorker"
-    },
-    {
-      "intent": "make api request",
-      "task": "Route API call requests directly to RequestWorker"
-    },
-    {
-      "intent": "get data from api",
-      "task": "Route API call requests directly to RequestWorker"
-    },
-    {
-      "intent": "get document information",
-      "task": "Route document retrieval requests to FaissRAGWorker"
-    },
-    {
-      "intent": "find in documents",
-      "task": "Route document retrieval requests to FaissRAGWorker"
-    },
-    {
-      "intent": "general question",
-      "task": "Maintain conversation context with MessageWorker"
-    }
+    "Search the web for current information",
+    "Make API calls to external services",
+    "Retrieve information from NCAT documents",
+    "Handle general conversation and inquiries"
   ],
   "workers": [
     {

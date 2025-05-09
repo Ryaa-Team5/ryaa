@@ -1,0 +1,32 @@
+[
+    {
+        "task_name": "Fetch Real-time Stock Price via API",
+        "steps": [
+            "Parse and classify the user's request to determine if the intent is to fetch a real-time stock price, and identify the required stock symbol and any other parameters.",
+            "Retrieve and interpret relevant API documentation using FaissRAGWorker to identify the correct endpoint and required parameters for fetching real-time stock prices.",
+            "Validate user input and assemble the required parameters for the API call. If any parameters (such as the stock symbol) are missing or ambiguous, prompt the user to provide or clarify them.",
+            "Execute the API call to fetch the real-time stock price and process the response.",
+            "Explain the retrieved stock price result to the user in a clear, accessible manner. Offer additional support if the user has more questions or requests."
+        ]
+    },
+    {
+        "task_name": "Understand API Endpoint Usage",
+        "steps": [
+            "Parse and classify the user's intent to determine if they are asking about API endpoint usage, making a specific request, or seeking general API guidance.",
+            "If the user is asking how to use an API endpoint or has questions about its usage, retrieve and interpret the relevant API documentation using RAG to provide accurate endpoint, parameter, and usage information.",
+            "Explain the API endpoint usage, parameters, and expected responses to the user in clear, conversational terms, drawing on insights from the documentation.",
+            "Ask if the user has further questions about the API endpoint or if they want to try making an API call.",
+            "If the user expresses interest in making a call, validate and assemble the required parameters, checking with the user for any missing or unclear information before proceeding."
+        ]
+    },
+    {
+        "task_name": "Execute Generic API Call based on Documentation",
+        "steps": [
+            "Parse and classify the user's request intent to determine if the user wants to execute an API call, inquire about the API, or needs help with a generic API workflow.",
+            "If the user request is API-related or ambiguous, retrieve and interpret the relevant API documentation to clarify endpoint, required parameters, and response structure.",
+            "Validate and assemble all necessary API call parameters based on user input and the interpreted documentation. Prompt the user for any missing or incorrect information required for a successful API call.",
+            "Execute the API call using the prepared parameters, process the response, and transform the raw results into a user-friendly format.",
+            "Explain the results of the API call or, if applicable, provide an explanation of the API usage or parameters for future reference. Ask if the user would like to make another call or needs more assistance."
+        ]
+    }
+]

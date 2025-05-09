@@ -6,6 +6,8 @@ import logging
 import streamlit as st
 from dotenv import load_dotenv
 from pprint import pprint
+import argparse
+import create 
 
 from arklex.utils.utils import init_logger
 from arklex.orchestrator.orchestrator import AgentOrg
@@ -16,13 +18,15 @@ from arklex.env.env import Env
 worker_colors = {
     "MessageWorker": "blue",
     "FaissRAGWorker" : "green",
-    "SearchWorker": "red"
+    "SearchWorker": "red",
+    "RequestWorker": "yellow"
 }
 
 worker_names = {
     "MessageWorker": "Message",
     "FaissRAGWorker": "RAG",
-    "SearchWorker": "Internet Search"
+    "SearchWorker": "Internet Search",
+    "RequestWorker": "User API"
 }
 
 # derived from Arklex, "run.py" file
@@ -68,5 +72,33 @@ def display_workers(workers):
         color = worker_colors.get(worker, "yellow")
         name = worker_names.get(worker, worker)
         markdown_str += f":{color}-badge[{name}] "
+        if color == "yellow":
+            markdown_str = f""
     st.markdown(markdown_str)
 
+def get_model_provider(model):  
+    if "gpt" in model:
+        return "openai"
+    if "gemini" in model:
+        return "gemini"
+    if "claude" in model:
+        return "anthropic"
+    
+def load_secrets():
+    for name, key in st.secrets.api_keys.items():
+        os.environ[name] = key
+
+def gen_agent(config_path, model_option, model_provider):
+    args = argparse.Namespace()
+    args.config = config_path
+    args.output_dir = f"./agent/api_agent{st.session_state.gen_counter}"
+    args.model = model_option
+    args.llm_provider = model_provider
+    args.log_level = "INFO"
+    args.task = "all"
+
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir, exist_ok=True)
+
+    create.generate_taskgraph(args)
+    create.init_worker(args)

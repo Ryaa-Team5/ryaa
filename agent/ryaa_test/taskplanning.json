@@ -1,0 +1,88 @@
+[
+    {
+        "task_name": "Route web search requests directly to SearchWorker",
+        "steps": [
+            "Route web search requests directly to SearchWorker"
+        ]
+    },
+    {
+        "task_name": "Route API call requests directly to RequestWorker",
+        "steps": [
+            "Ask the user how you can assist them, prompting for their request.",
+            "Analyze the user's input to detect intent, specifically to determine if it is an API call request (using user_intent_detection).",
+            "If the user request is identified as an API call request, format and validate the API payload based on user input (request_formatting_and_validation).",
+            "Route the validated API request to the RequestWorker for processing (request_routing_to_worker).",
+            "Aggregate and transform the API response from the RequestWorker into a user-friendly message (response_aggregation_and_transformation).",
+            "Deliver the processed response to the user and manage any follow-up conversation using MessageWorker (conversation_context_management)."
+        ]
+    },
+    {
+        "task_name": "Route document retrieval requests to FaissRAGWorker",
+        "steps": [
+            "Analyze the user's input to detect intent using user_intent_detection and determine if the request is for document retrieval from internal documentation.",
+            "If the intent is document retrieval, format and validate the input using request_formatting_and_validation to ensure the query meets FaissRAGWorker requirements.",
+            "Route the validated request to FaissRAGWorker using request_routing_to_worker and retrieve relevant information from internal documentation.",
+            "Aggregate and transform the FaissRAGWorker's response using response_aggregation_and_transformation, making it clear and concise for the user.",
+            "Deliver the formatted response to the user and manage the conversation context for follow-up questions using MessageWorker and conversation_context_management."
+        ]
+    },
+    {
+        "task_name": "Maintain conversation context with MessageWorker",
+        "steps": [
+            "Maintain conversation context with MessageWorker"
+        ]
+    },
+    {
+        "task_name": "Detect user intent to select appropriate worker",
+        "steps": [
+            "Greet the user and prompt them to describe what they need help with, ensuring that their input is as clear and detailed as possible.",
+            "Analyze the user's input using user_intent_detection to determine which specialized worker (FaissRAGWorker, SearchWorker, RequestWorker, or MessageWorker) is most appropriate for handling the request.",
+            "Confirm with the user the interpreted intent and, if clarification is needed, ask follow-up questions to resolve any ambiguity.",
+            "Route the request to the identified worker using request_routing_to_worker, ensuring that the user's information is properly formatted and validated before processing.",
+            "Present the result from the specialized worker to the user in a clear, concise manner using response_aggregation_and_transformation, and ask if further assistance is required."
+        ]
+    },
+    {
+        "task_name": "Fetch stock prices using RequestWorker for financial API calls",
+        "steps": [
+            "Fetch stock prices using RequestWorker for financial API calls"
+        ]
+    },
+    {
+        "task_name": "Execute generic API calls based on user specifications",
+        "steps": [
+            "Greet the user and ask them to specify the details of the API operation they would like to perform (e.g., which service or endpoint, required parameters, expected action).",
+            "Detect the user's intent using user_intent_detection and determine that an API call is requested.",
+            "Collect all necessary input parameters from the user for the API call by prompting for any missing information. Validate and format the request using request_formatting_and_validation.",
+            "Send the formatted and validated API request to the relevant endpoint using RequestWorker.",
+            "Aggregate and transform the API response using response_aggregation_and_transformation, then present the results to the user through MessageWorker in a clear, user-friendly format.",
+            "Confirm if the user\u2019s objective has been met and offer further assistance if needed, maintaining conversation context for possible follow-up actions."
+        ]
+    },
+    {
+        "task_name": "Conduct web searches for information queries",
+        "steps": [
+            "Receive the user's information query and analyze their input to detect intent, determining whether the query requires a web search or access to internal documents.",
+            "Route the request to the SearchWorker if the user's intent is to conduct a web search for up-to-date information; otherwise, route to FaissRAGWorker for internal documentation queries.",
+            "Format and validate the request to ensure all necessary parameters are captured for the selected worker, and submit the request accordingly.",
+            "Aggregate and transform the worker's response to generate a clear, concise, and user-friendly summary.",
+            "Present the answer to the user, and ask if they need further information or would like to refine their search."
+        ]
+    },
+    {
+        "task_name": "Retrieve relevant information from RAG documents",
+        "steps": [
+            "Retrieve relevant information from RAG documents"
+        ]
+    },
+    {
+        "task_name": "Analyze financial data through API integration",
+        "steps": [
+            "Greet the user and ask for the specific financial data or analysis they need, clarifying details such as the type of data, time range, metrics of interest, or any particular API/source to integrate with.",
+            "Analyze the user's response to detect intent and required data parameters. Validate and confirm the requested details with the user to ensure all necessary information for the API request is captured and accurate.",
+            "Inform the user that you will process their request and initiate the API call by formatting the request payload as needed. Use RequestWorker to send the API request for financial data analysis.",
+            "Aggregate and transform the API response into a clear, user-friendly summary of the financial analysis. Present the findings to the user along with any relevant charts, summaries, or highlights.",
+            "Ask the user if they need further insights, a different analysis, or support with related financial queries, ensuring the conversation remains contextually aware and personalized."
+        ]
+    }
+]

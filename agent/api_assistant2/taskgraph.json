@@ -1,0 +1,854 @@
+{
+    "nodes": [
+        [
+            "0",
+            {
+                "resource": {
+                    "id": null,
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! I'm your API Interaction Agent. Tell me what you'd like to do, and I'll use the available API to help you get the information or perform the actions you need.",
+                    "task": "start message",
+                    "directed": false
+                },
+                "limit": 1,
+                "type": "start"
+            }
+        ],
+        [
+            "1",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "parse_and_classify_user_request_intent"
+                },
+                "attribute": {
+                    "value": "16",
+                    "task": "Parse and classify the user's request to determine if the intent is to fetch a real-time stock price, and identify the required stock symbol and any other parameters.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "2",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "retrieve_and_interpret_api_documentation"
+                },
+                "attribute": {
+                    "value": "19",
+                    "task": "Retrieve and interpret relevant API documentation using FaissRAGWorker to identify the correct endpoint and required parameters for fetching real-time stock prices.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "3",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "validate_and_assemble_api_call_parameters"
+                },
+                "attribute": {
+                    "value": "22",
+                    "task": "Validate user input and assemble the required parameters for the API call. If any parameters (such as the stock symbol) are missing or ambiguous, prompt the user to provide or clarify them.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "4",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "execute_api_call_and_process_response"
+                },
+                "attribute": {
+                    "value": "26",
+                    "task": "Execute the API call to fetch the real-time stock price and process the response.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "5",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "explain_api_usage_or_results"
+                },
+                "attribute": {
+                    "value": "30",
+                    "task": "Explain the retrieved stock price result to the user in a clear, accessible manner. Offer additional support if the user has more questions or requests.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "6",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "parse_and_classify_user_request_intent"
+                },
+                "attribute": {
+                    "value": "16",
+                    "task": "Parse and classify the user's intent to determine if they are asking about API endpoint usage, making a specific request, or seeking general API guidance.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "7",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "retrieve_and_interpret_api_documentation"
+                },
+                "attribute": {
+                    "value": "19",
+                    "task": "If the user is asking how to use an API endpoint or has questions about its usage, retrieve and interpret the relevant API documentation using RAG to provide accurate endpoint, parameter, and usage information.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "8",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "explain_api_usage_or_results"
+                },
+                "attribute": {
+                    "value": "30",
+                    "task": "Explain the API endpoint usage, parameters, and expected responses to the user in clear, conversational terms, drawing on insights from the documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "9",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "explain_api_usage_or_results"
+                },
+                "attribute": {
+                    "value": "30",
+                    "task": "Ask if the user has further questions about the API endpoint or if they want to try making an API call.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "10",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "validate_and_assemble_api_call_parameters"
+                },
+                "attribute": {
+                    "value": "22",
+                    "task": "If the user expresses interest in making a call, validate and assemble the required parameters, checking with the user for any missing or unclear information before proceeding.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "11",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "parse_and_classify_user_request_intent"
+                },
+                "attribute": {
+                    "value": "16",
+                    "task": "Parse and classify the user's request intent to determine if the user wants to execute an API call, inquire about the API, or needs help with a generic API workflow.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "12",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "retrieve_and_interpret_api_documentation"
+                },
+                "attribute": {
+                    "value": "19",
+                    "task": "If the user request is API-related or ambiguous, retrieve and interpret the relevant API documentation to clarify endpoint, required parameters, and response structure.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "13",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "validate_and_assemble_api_call_parameters"
+                },
+                "attribute": {
+                    "value": "22",
+                    "task": "Validate and assemble all necessary API call parameters based on user input and the interpreted documentation. Prompt the user for any missing or incorrect information required for a successful API call.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "14",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "The current price of AAPL is $183.56 (as of the latest available data).",
+                    "task": "Execute the API call using the prepared parameters, process the response, and transform the raw results into a user-friendly format.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "15",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "explain_api_usage_or_results"
+                },
+                "attribute": {
+                    "value": "30",
+                    "task": "Explain the results of the API call or, if applicable, provide an explanation of the API usage or parameters for future reference. Ask if the user would like to make another call or needs more assistance.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "16",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Process the user's input to extract entities (e.g., stock ticker, data type), classify the intent (e.g., real-time price, API endpoint usage) and route the request accordingly.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "17",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Parse input to extract possible entities (such as symbol, function name, parameters).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "18",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Classify user intent (e.g. explicit API call, documentation question, generic info request).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "19",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "Based on our internal documentation, here are the key endpoints and parameters relevant to your request.",
+                    "task": "Identify documentation relevant to the user's request, retrieve it, and extract key details such as endpoints, parameters, and expected outputs.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "20",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "The relevant section of the documentation that matches your request is the 'User Authentication API' section.",
+                    "task": "Select documentation section(s) matching user's request intent.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "21",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "Endpoint URL: /api/v1/auth/login; Authentication: Basic Auth; Parameters: username, password; Response schema: {status, token}.",
+                    "task": "Parse the selected documentation snippet(s) for endpoint URL, authentication needs, parameters, and response schema.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "22",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Cross-check user's input and extracted entities with API endpoint requirements; gather and validate complete parameter set.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "23",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "Could you please provide the value for [missing_parameter]?",
+                    "task": "For each required parameter, verify it is present or prompt the user for missing ones.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "24",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "According to our documentation, the value for [parameter] should be in the format [format] and can only be one of [allowed_values].",
+                    "task": "Check parameter formats and allowed values as per documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "25",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Compile a validated parameter set for the API call.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "26",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Initiate the API request using previously assembled parameters, handle errors, and process the response as per user needs.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "27",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "The API request has been sent with the parameters you provided.",
+                    "task": "Send the request to the API using provided endpoint and parameters.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "28",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "There was an error with the API request. Please check your parameters or try again later.",
+                    "task": "Monitor for possible API errors or invalid responses and handle appropriately.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "29",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "Here is the result from your API request: [Formatted Output]",
+                    "task": "Parse and format the API response into readable output for the user.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "30",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "Here is a simplified explanation: This API endpoint retrieves your recent transactions. You need to provide your account ID, and you can specify the date range if you want.",
+                    "task": "Summarize and translate technical API information or output into clear, concise user-facing language.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "31",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "The 'Get Account Details' endpoint allows you to view your account information. You need to provide your user ID. This is useful if you want to quickly review your account status or history.",
+                    "task": "For documentation: Explain API endpoint purposes, parameters, and typical usage.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "32",
+            {
+                "resource": {
+                    "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "The response shows a list of your completed orders in the past month. You can click an order ID to view more details or place a repeat order.",
+                    "task": "For API calls: Explain returned result(s) and any relevant context or next steps.",
+                    "directed": false
+                }
+            }
+        ]
+    ],
+    "edges": [
+        [
+            "0",
+            "1",
+            {
+                "intent": "Fetch Real-time Stock Price via API",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "1",
+            "2",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "2",
+            "3",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "3",
+            "4",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "4",
+            "5",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "6",
+            {
+                "intent": "Understand API Endpoint Usage",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "6",
+            "7",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "7",
+            "8",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "8",
+            "9",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "9",
+            "10",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "11",
+            {
+                "intent": "Execute Generic API Call based on Documentation",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "11",
+            "12",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "12",
+            "13",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "13",
+            "14",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "14",
+            "15",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "16",
+            "17",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "16",
+            "18",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "19",
+            "20",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "19",
+            "21",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "22",
+            "23",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "22",
+            "24",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "22",
+            "25",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "26",
+            "27",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "26",
+            "28",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "26",
+            "29",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "30",
+            "31",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "30",
+            "32",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ]
+    ],
+    "role": "API Interaction Agent",
+    "user_objective": "The agent uses documentation (via RAG) to understand how a web API works and then makes calls to that API. For specific, clear requests like fetching a stock price, it should directly attempt the API call.",
+    "builder_objective": "The agent accurately interprets API documentation and executes API calls using the dedicated API worker, prioritizing direct API calls when user intent is explicit.",
+    "domain": "Web APIs & Financial Data",
+    "intro": "This agent specializes in interacting with web APIs, particularly the Alpha Vantage API for financial data (documented at https://www.alphavantage.co/documentation/). It uses RAG to understand API details but aims to use the ApiWorker directly when the user clearly requests an action like 'get stock price for IBM'.",
+    "task_docs": [],
+    "rag_docs": [
+        {
+            "source": "https://www.alphavantage.co/documentation/",
+            "desc": "Alpha Vantage API documentation used by the RAG worker to understand API endpoints, parameters, and usage for the API worker.",
+            "num": 1
+        }
+    ],
+    "tasks": [
+        "Fetch Real-time Stock Price via API",
+        "Understand API Endpoint Usage",
+        "Execute Generic API Call based on Documentation"
+    ],
+    "workers": [
+        {
+            "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12",
+            "name": "FaissRAGWorker",
+            "path": "faiss_rag_worker.py"
+        },
+        {
+            "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+            "name": "RequestWorker",
+            "path": "api_worker.py"
+        }
+    ],
+    "tools": [],
+    "nluapi": "",
+    "slotfillapi": ""
+}

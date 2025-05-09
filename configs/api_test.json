@@ -1,0 +1,33 @@
+{
+  "role": "API Interaction Agent",
+  "user_objective": "The agent uses documentation (via RAG) to understand how a web API works and then makes calls to that API. For specific, clear requests like fetching a stock price, it should directly attempt the API call.",
+  "builder_objective": "The agent accurately interprets API documentation and executes API calls using the dedicated API worker, prioritizing direct API calls when user intent is explicit.",
+  "domain": "Web APIs & Financial Data",
+  "intro": "This agent specializes in interacting with web APIs, particularly the Alpha Vantage API for financial data (documented at https://www.alphavantage.co/documentation/). It uses RAG to understand API details but aims to use the ApiWorker directly when the user clearly requests an action like 'get stock price for IBM'.",
+  "task_docs": [],
+  "rag_docs": [],
+  "tasks": [
+      "Fetch Real-time Stock Price via API", 
+      "Understand API Endpoint Usage",
+      "Execute Generic API Call based on Documentation" 
+  ],
+  "workers": [
+    {
+      "id": "d4b1a8c9-0e1f-7a2b-d3c4-567890efgh12", 
+      "name": "FaissRAGWorker", 
+      "path": "faiss_rag_worker.py" 
+    },
+    {
+      "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34", 
+      "name": "RequestWorker", 
+      "path": "api_worker.py" 
+    },
+    {
+      "id": "26bb6634-3bee-417d-ad75-23269ac17bc3", 
+      "name": "MessageWorker", 
+      "path": "message_worker.py"
+    }
+  ],
+  "tools": []
+}
+

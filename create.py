@@ -18,6 +18,9 @@ from arklex.env.tools.database.build_database import build_database
 from arklex.utils.model_config import MODEL
 from arklex.utils.model_provider_config import LLM_PROVIDERS, PROVIDER_MAP
 
+# NOTE: This File is derived from Columbia University's "Arklex"/"Agent-First-Organization"
+# Framework. This is because it includes critical funtions to the front end. 
+
 logger = init_logger(log_level=logging.INFO, filename=os.path.join(os.path.dirname(__file__), "logs", "arklex.log"))
 load_dotenv()
 

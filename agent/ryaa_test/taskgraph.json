@@ -1,0 +1,1485 @@
+{
+    "nodes": [
+        [
+            "0",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! I'm your AI Personal Assistant. Tell me what you\u2019d like to accomplish today\u2014whether it\u2019s finding information online, making an API request, retrieving documents, or just having a conversation, I\u2019m here to help. How can I assist you?",
+                    "task": "start message",
+                    "directed": false
+                },
+                "limit": 1,
+                "type": "start"
+            }
+        ],
+        [
+            "1",
+            {
+                "resource": {
+                    "id": "9c15af81-04b3-443e-be04-a3522124b905",
+                    "name": "SearchWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Route web search requests directly to SearchWorker",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "2",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "How can I assist you today?",
+                    "task": "Ask the user how you can assist them, prompting for their request.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "3",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Analyze the user's input to detect intent, specifically to determine if it is an API call request (using user_intent_detection).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "4",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_formatting_and_validation"
+                },
+                "attribute": {
+                    "value": "40",
+                    "task": "If the user request is identified as an API call request, format and validate the API payload based on user input (request_formatting_and_validation).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "5",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_routing_to_worker"
+                },
+                "attribute": {
+                    "value": "43",
+                    "task": "Route the validated API request to the RequestWorker for processing (request_routing_to_worker).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "6",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Aggregate and transform the API response from the RequestWorker into a user-friendly message (response_aggregation_and_transformation).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "7",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "conversation_context_management"
+                },
+                "attribute": {
+                    "value": "52",
+                    "task": "Deliver the processed response to the user and manage any follow-up conversation using MessageWorker (conversation_context_management).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "8",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Analyze the user's input to detect intent using user_intent_detection and determine if the request is for document retrieval from internal documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "9",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_formatting_and_validation"
+                },
+                "attribute": {
+                    "value": "40",
+                    "task": "If the intent is document retrieval, format and validate the input using request_formatting_and_validation to ensure the query meets FaissRAGWorker requirements.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "10",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_routing_to_worker"
+                },
+                "attribute": {
+                    "value": "43",
+                    "task": "Route the validated request to FaissRAGWorker using request_routing_to_worker and retrieve relevant information from internal documentation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "11",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Aggregate and transform the FaissRAGWorker's response using response_aggregation_and_transformation, making it clear and concise for the user.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "12",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Here is the information you requested from our internal documentation. If you have any follow-up questions or need further clarification, please let me know!",
+                    "task": "Deliver the formatted response to the user and manage the conversation context for follow-up questions using MessageWorker and conversation_context_management.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "13",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "conversation_context_management"
+                },
+                "attribute": {
+                    "value": "52",
+                    "task": "Maintain conversation context with MessageWorker",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "14",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! How can I assist you today? Please describe what you need help with as clearly and in as much detail as possible.",
+                    "task": "Greet the user and prompt them to describe what they need help with, ensuring that their input is as clear and detailed as possible.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "15",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Analyze the user's input using user_intent_detection to determine which specialized worker (FaissRAGWorker, SearchWorker, RequestWorker, or MessageWorker) is most appropriate for handling the request.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "16",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Just to confirm, you would like assistance with checking our company policies. Is that correct? If not, could you please clarify your request?",
+                    "task": "Confirm with the user the interpreted intent and, if clarification is needed, ask follow-up questions to resolve any ambiguity.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "17",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_routing_to_worker"
+                },
+                "attribute": {
+                    "value": "43",
+                    "task": "Route the request to the identified worker using request_routing_to_worker, ensuring that the user's information is properly formatted and validated before processing.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "18",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Present the result from the specialized worker to the user in a clear, concise manner using response_aggregation_and_transformation, and ask if further assistance is required.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "19",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "{'symbol': 'AAPL', 'price': 187.23, 'timestamp': '2024-06-12T09:47:00Z'}",
+                    "task": "Fetch stock prices using RequestWorker for financial API calls",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "20",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! Please specify the API operation you'd like to perform. Which service or endpoint, required parameters, and the expected action?",
+                    "task": "Greet the user and ask them to specify the details of the API operation they would like to perform (e.g., which service or endpoint, required parameters, expected action).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "21",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Detect the user's intent using user_intent_detection and determine that an API call is requested.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "22",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_formatting_and_validation"
+                },
+                "attribute": {
+                    "value": "40",
+                    "task": "Collect all necessary input parameters from the user for the API call by prompting for any missing information. Validate and format the request using request_formatting_and_validation.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "23",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Send the formatted and validated API request to the relevant endpoint using RequestWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "24",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Aggregate and transform the API response using response_aggregation_and_transformation, then present the results to the user through MessageWorker in a clear, user-friendly format.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "25",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "conversation_context_management"
+                },
+                "attribute": {
+                    "value": "52",
+                    "task": "Confirm if the user\u2019s objective has been met and offer further assistance if needed, maintaining conversation context for possible follow-up actions.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "26",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Receive the user's information query and analyze their input to detect intent, determining whether the query requires a web search or access to internal documents.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "27",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_routing_to_worker"
+                },
+                "attribute": {
+                    "value": "43",
+                    "task": "Route the request to the SearchWorker if the user's intent is to conduct a web search for up-to-date information; otherwise, route to FaissRAGWorker for internal documentation queries.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "28",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "request_formatting_and_validation"
+                },
+                "attribute": {
+                    "value": "40",
+                    "task": "Format and validate the request to ensure all necessary parameters are captured for the selected worker, and submit the request accordingly.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "29",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Aggregate and transform the worker's response to generate a clear, concise, and user-friendly summary.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "30",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Here is the information you requested. Is there anything else you'd like to know or would you like to refine your search?",
+                    "task": "Present the answer to the user, and ask if they need further information or would like to refine their search.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "31",
+            {
+                "resource": {
+                    "id": "9aa47724-0b77-4752-9528-cf4b06a46915",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "According to the company's policy document, employees are eligible for reimbursement after submitting valid receipts.",
+                    "task": "Retrieve relevant information from RAG documents",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "32",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Hello! What specific financial data or analysis do you need? Please specify the data type, time range, metrics you're interested in, or any particular data source you'd like to use.",
+                    "task": "Greet the user and ask for the specific financial data or analysis they need, clarifying details such as the type of data, time range, metrics of interest, or any particular API/source to integrate with.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "33",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "user_intent_detection"
+                },
+                "attribute": {
+                    "value": "37",
+                    "task": "Analyze the user's response to detect intent and required data parameters. Validate and confirm the requested details with the user to ensure all necessary information for the API request is captured and accurate.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "34",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "Thank you for providing the details. I'm now retrieving the requested financial data and analysis for you.",
+                    "task": "Inform the user that you will process their request and initiate the API call by formatting the request payload as needed. Use RequestWorker to send the API request for financial data analysis.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "35",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "response_aggregation_and_transformation"
+                },
+                "attribute": {
+                    "value": "48",
+                    "task": "Aggregate and transform the API response into a clear, user-friendly summary of the financial analysis. Present the findings to the user along with any relevant charts, summaries, or highlights.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "36",
+            {
+                "resource": {
+                    "id": "nested_graph",
+                    "name": "conversation_context_management"
+                },
+                "attribute": {
+                    "value": "52",
+                    "task": "Ask the user if they need further insights, a different analysis, or support with related financial queries, ensuring the conversation remains contextually aware and personalized.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "37",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Analyze user input to classify the request type (web search, API call, document retrieval, or conversation).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "38",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Extract key entities, action verbs, and context from user message.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "39",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Map classified intent to the correct worker module.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "40",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Could you please provide the stock symbol or API URL you would like to use?",
+                    "task": "Gather and validate required parameters from user input for the specific worker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "41",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Check that all mandatory parameters (e.g., symbols for stock, URLs for APIs, keywords for documents) are present.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "42",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Convert or reformat the input according to the worker\u2019s API schema.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "43",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Let me handle that request for you.",
+                    "task": "Based on detected user intent, forward the request to the correct worker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "44",
+            {
+                "resource": {
+                    "id": "9c15af81-04b3-443e-be04-a3522124b905",
+                    "name": "SearchWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "For web search/intelligence queries, route to SearchWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "45",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "For API-based actions or information, route to RequestWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "46",
+            {
+                "resource": {
+                    "id": "9aa47724-0b77-4752-9528-cf4b06a46915",
+                    "name": "FaissRAGWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "For document knowledge/retrieval, route to FaissRAGWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "47",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "For ongoing conversation/context, route to MessageWorker.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "48",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Receive and collect responses from one or more workers.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "49",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Here's a summary of the information collected: ...",
+                    "task": "Transform or parse raw results for readability (e.g., summary, highlight, rephrase).",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "50",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "I have consolidated the answers from different sources for you.",
+                    "task": "Combine outputs if multiple workers were involved.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "51",
+            {
+                "resource": {
+                    "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+                    "name": "MessageWorker"
+                },
+                "attribute": {
+                    "value": "Here is the information you've requested: ...",
+                    "task": "Format the final response for the end user.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "52",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Store and retrieve relevant dialogue history and user preferences.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "53",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Update conversation history with each new user and worker message.",
+                    "directed": false
+                }
+            }
+        ],
+        [
+            "54",
+            {
+                "resource": {
+                    "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+                    "name": "RequestWorker"
+                },
+                "attribute": {
+                    "value": "",
+                    "task": "Reference prior exchanges to resolve pronouns, follow-up questions, or provide context-aware answers.",
+                    "directed": false
+                }
+            }
+        ]
+    ],
+    "edges": [
+        [
+            "0",
+            "1",
+            {
+                "intent": "Route web search requests directly to SearchWorker",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "2",
+            {
+                "intent": "Route API call requests directly to RequestWorker",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "2",
+            "3",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "3",
+            "4",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "4",
+            "5",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "5",
+            "6",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "6",
+            "7",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "8",
+            {
+                "intent": "Route document retrieval requests to FaissRAGWorker",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "8",
+            "9",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "9",
+            "10",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "10",
+            "11",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "11",
+            "12",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "13",
+            {
+                "intent": "Maintain conversation context with MessageWorker",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "14",
+            {
+                "intent": "Detect user intent to select appropriate worker",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "14",
+            "15",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "15",
+            "16",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "16",
+            "17",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "17",
+            "18",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "19",
+            {
+                "intent": "Fetch stock prices using RequestWorker for financial API calls",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "20",
+            {
+                "intent": "Execute generic API calls based on user specifications",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "20",
+            "21",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "21",
+            "22",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "22",
+            "23",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "23",
+            "24",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "24",
+            "25",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "26",
+            {
+                "intent": "Conduct web searches for information queries",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "26",
+            "27",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "27",
+            "28",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "28",
+            "29",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "29",
+            "30",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "31",
+            {
+                "intent": "Retrieve relevant information from RAG documents",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "0",
+            "32",
+            {
+                "intent": "Analyze financial data through API integration",
+                "attribute": {
+                    "weight": 1,
+                    "pred": true,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "32",
+            "33",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "33",
+            "34",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "34",
+            "35",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "35",
+            "36",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "37",
+            "38",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "37",
+            "39",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "40",
+            "41",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "40",
+            "42",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "43",
+            "44",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "43",
+            "45",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "43",
+            "46",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "43",
+            "47",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "48",
+            "49",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "48",
+            "50",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "48",
+            "51",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "52",
+            "53",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ],
+        [
+            "52",
+            "54",
+            {
+                "intent": "None",
+                "attribute": {
+                    "weight": 1,
+                    "pred": false,
+                    "definition": "",
+                    "sample_utterances": []
+                }
+            }
+        ]
+    ],
+    "role": "AI Personal Assistant with API Integration",
+    "user_objective": "The assistant provides personalized help by intelligently routing requests to specialized workers: using SearchWorker for web searches, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation management.",
+    "builder_objective": "This assistant serves as a router that activates the appropriate worker based on user intent - directing search queries to SearchWorker, API requests to RequestWorker, information retrieval to FaissRAGWorker, and maintaining conversation context with MessageWorker.",
+    "domain": "Personal Intelligence & Web API Integration",
+    "intro": "RYAA (Real-Time Yielding Autonomous Assistant) is an advanced personal assistant developed by top computer science seniors at North Carolina A&T State University. It acts as an intelligent router that directs user requests to specialized workers: using SearchWorker for web queries, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation context.",
+    "task_docs": [],
+    "rag_docs": [
+        {
+            "desc": "Description of RYAA (Real-Time Yielding Autonomous Assistant)",
+            "source": "https://www.canva.com/design/DAGXDbF1CSQ/A-OaM8sK3XILJfZXBHPIEw/edit?utm_content=DAGXDbF1CSQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+            "num": 1
+        },
+        {
+            "desc": "North Carolina A&T State University Computer Science Department",
+            "source": "https://www.ncat.edu/coe/departments/cs/index.php",
+            "num": 1
+        },
+        {
+            "desc": "North Carolina A&T State University Computer Science Department Undergraduate Programs",
+            "source": "https://www.ncat.edu/coe/departments/cs/undergrad-programs/index.php",
+            "num": 1
+        },
+        {
+            "desc": "North Carolina A&T State University Computer Science Department Graduate Programs",
+            "source": "https://www.ncat.edu/coe/departments/cs/graduate-programs/index.php",
+            "num": 1
+        },
+        {
+            "desc": "North Carolina A&T State University Computer Science Department Student Handbook",
+            "source": "https://www.ncat.edu/coe/departments/cs/undergrad-programs/ug-handbook.pdf",
+            "num": 1
+        }
+    ],
+    "tasks": [
+        "Route web search requests directly to SearchWorker",
+        "Route API call requests directly to RequestWorker",
+        "Route document retrieval requests to FaissRAGWorker",
+        "Maintain conversation context with MessageWorker",
+        "Detect user intent to select appropriate worker",
+        "Fetch stock prices using RequestWorker for financial API calls",
+        "Execute generic API calls based on user specifications",
+        "Conduct web searches for information queries",
+        "Retrieve relevant information from RAG documents",
+        "Analyze financial data through API integration"
+    ],
+    "workers": [
+        {
+            "id": "9aa47724-0b77-4752-9528-cf4b06a46915",
+            "name": "FaissRAGWorker",
+            "path": "faiss_rag_worker.py"
+        },
+        {
+            "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
+            "name": "MessageWorker",
+            "path": "message_worker.py"
+        },
+        {
+            "id": "9c15af81-04b3-443e-be04-a3522124b905",
+            "name": "SearchWorker",
+            "path": "search_worker.py"
+        },
+        {
+            "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+            "name": "RequestWorker",
+            "path": "api_worker.py"
+        }
+    ],
+    "tools": [],
+    "nluapi": "",
+    "slotfillapi": ""
+}

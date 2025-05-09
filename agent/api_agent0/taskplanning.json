@@ -1,0 +1,49 @@
+[
+    {
+        "task_name": "Provide help in retrieving and presenting relevant information",
+        "steps": [
+            "Identify the specific information the user is seeking by asking clarifying questions if needed.",
+            "Determine whether to use FaissRAGWorker for internal documentation or SearchWorker for real-time online searches based on the user's request.",
+            "Retrieve the relevant information using the chosen worker (FaissRAGWorker or SearchWorker).",
+            "Present the retrieved information to the user using MessageWorker.",
+            "Ask the user if they need further assistance or additional information."
+        ]
+    },
+    {
+        "task_name": "Ensure coherent and context-aware conversation management",
+        "steps": [
+            "Initiate the conversation by greeting the user and inquiring about how the assistant can help today.",
+            "Use the FaissRAGWorker to retrieve relevant information from the company's internal documentation if the user has a question related to policies, FAQs, or product information.",
+            "If the user's query requires real-time information, use the SearchWorker to perform a web search and provide updated information.",
+            "Use MessageWorker to communicate the gathered information back to the user in a clear and coherent manner.",
+            "Ask the user if they need further assistance or if there's another way the assistant can help, ensuring a seamless transition between topics."
+        ]
+    },
+    {
+        "task_name": "Perform web searches and provide relevant results",
+        "steps": [
+            "Perform web searches and provide relevant results"
+        ]
+    },
+    {
+        "task_name": "Assist with scheduling tasks, appointments, and reminders",
+        "steps": [
+            "Inquire about the user's task, appointment, or reminder needs, asking for specific details such as date, time, and description.",
+            "Confirm the details provided by the user to ensure accuracy and ask for any additional information if needed.",
+            "Check for any potential conflicts in the user's schedule using available resources and suggest alternative times if necessary.",
+            "Confirm the final details with the user and ask if they would like a reminder set for the task or appointment.",
+            "Provide a summary of the scheduled task or appointment and confirm that a reminder has been set if requested."
+        ]
+    },
+    {
+        "task_name": "Provide fallback support for general requests",
+        "steps": [
+            "Use MessageWorker to acknowledge the user's request and indicate that the assistant is attempting to find the best way to help.",
+            "Attempt to use FaissRAGWorker to find relevant information from the company's internal documentation that can address the user's request.",
+            "If FaissRAGWorker cannot fulfill the request, use MessageWorker to inform the user that the internal documentation does not have the necessary information and the assistant will attempt a different approach.",
+            "Attempt to use SearchWorker to find relevant information from external sources online.",
+            "If SearchWorker provides relevant results, use MessageWorker to deliver this information to the user.",
+            "If neither FaissRAGWorker nor SearchWorker can fulfill the request, use MessageWorker to inform the user that the request cannot be fulfilled at the moment and suggest possible alternative actions or further assistance."
+        ]
+    }
+]

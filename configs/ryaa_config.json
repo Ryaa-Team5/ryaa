@@ -1,9 +1,9 @@
 {
-  "role": "personal assistant",
-  "user_objective": "The personal assistant leverages VoiceMessageWorker for real-time voice interactions, FaissRAGWorker for retrieval augmented generation, MessageWorker for managing conversations, SearchWorker for web queries, and DefaultWorker for fallback operations.",
-  "builder_objective": "The personal assistant orchestrates voice interactions, web search, and conversational AI to help with everyday tasks such as ordering rides, setting reminders, sending messages, and initiating phone calls.",
-  "domain": "personal intelligence",
-  "intro": "RYAA (Real-Time Yielding Autonomous Assistant) for Senior Project II is developed by top computer science seniors. It integrates advanced voice interaction, conversational AI, and web search capabilities via specialized workers to assist with daily operations.",
+  "role": "AI Personal Assistant with API Integration",
+  "user_objective": "The assistant provides personalized help by intelligently routing requests to specialized workers: using SearchWorker for web searches, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation management.",
+  "builder_objective": "This assistant serves as a router that activates the appropriate worker based on user intent - directing search queries to SearchWorker, API requests to RequestWorker, information retrieval to FaissRAGWorker, and maintaining conversation context with MessageWorker.",
+  "domain": "Personal Intelligence & Web API Integration",
+  "intro": "RYAA (Real-Time Yielding Autonomous Assistant) is an advanced personal assistant developed by top computer science seniors at North Carolina A&T State University. It acts as an intelligent router that directs user requests to specialized workers: using SearchWorker for web queries, RequestWorker for API calls, FaissRAGWorker for document retrieval, and MessageWorker for conversation context.",
   "task_docs": [],
   "rag_docs": [
     {
@@ -28,21 +28,27 @@
     },
     {
       "desc": "North Carolina A&T State University Computer Science Department Student Handbook",
-      "source": "rag/undergraduate-handbook-rev-11-10-2023.pdf",
+      "source": "https://www.ncat.edu/coe/departments/cs/undergrad-programs/ug-handbook.pdf",
       "num": 1
     }
   ],
-  "tasks": [],
+  "tasks": [
+    "Route web search requests directly to SearchWorker",
+    "Route API call requests directly to RequestWorker",
+    "Route document retrieval requests to FaissRAGWorker",
+    "Maintain conversation context with MessageWorker",
+    "Detect user intent to select appropriate worker",
+    "Fetch stock prices using RequestWorker for financial API calls",
+    "Execute generic API calls based on user specifications",
+    "Conduct web searches for information queries",
+    "Retrieve relevant information from RAG documents",
+    "Analyze financial data through API integration"
+  ],
   "workers": [
     {
       "id": "9aa47724-0b77-4752-9528-cf4b06a46915",
       "name": "FaissRAGWorker",
       "path": "faiss_rag_worker.py"
-    },
-    {
-      "id": "13066189-c47d-4f51-ab5d-4075aedfc880",
-      "name": "SchedulerWorker",
-      "path": "scheduler_worker.py"
     },
     {
       "id": "26bb6634-3bee-417d-ad75-23269ac17bc3",
@@ -55,9 +61,9 @@
       "path": "search_worker.py"
     },
     {
-      "id": "b06c2b58-12c5-41fe-9838-e93b530e42e8",
-      "name": "DefaultWorker",
-      "path": "default_worker.py"
+      "id": "e5c2b9d0-1f2a-8b3c-e4d5-678901fghi34",
+      "name": "RequestWorker",
+      "path": "api_worker.py"
     }
   ],
   "tools": []

@@ -1,1 +1,1 @@
-Workers in custom workers aren't actually executed here, but they are placed here for code visibility
+Workers in custom workers aren't actually executed here, but they are placed here for code visibility and showcase the bonus features some of our team members were working on. 

@@ -32,10 +32,10 @@
     }
   ],
   "tasks": [
-    "Search the web for current information",
-    "Make API calls to external services",
-    "Retrieve information from NCAT documents",
-    "Handle general conversation and inquiries"
+    "Search the web using the SearchWorker",
+    "Make API call requests to external services using only the RequestWorker",
+    "Retrieve information from NCAT documents using the FaissRAGWorker",
+    "Handle general conversation and inquiries using the MessageWorker"
   ],
   "workers": [
     {

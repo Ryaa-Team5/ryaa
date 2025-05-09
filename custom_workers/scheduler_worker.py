@@ -32,21 +32,27 @@ class SchedulerWorker(BaseWorker):
 
     def __init__(self):
         super().__init__()
+        # Set up the background scheduler
         self.scheduler = BackgroundScheduler()
+
         self._configure_scheduler()
         self.action_graph = self._create_action_graph()
 
+
     def _configure_scheduler(self):
+        # Attach a listener to log job success or failure
         self.scheduler.add_listener(self._job_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
         self.scheduler.start()
 
     def _job_listener(self, event):
+        # Log job result
         if event.exception:
             logger.error(f"Job {event.job_id} failed!")
         else:
             logger.info(f"Job {event.job_id} executed successfully.")
 
     def schedule_user_task(self, user_id, task_time, task_data):
+
         trigger = DateTrigger(run_date=task_time)
         job_id = f"user_task_{user_id}_{task_time}"
         self.scheduler.add_job(self.execute_user_task, trigger, args=[user_id, task_data], id=job_id)
@@ -58,6 +64,7 @@ class SchedulerWorker(BaseWorker):
             logger.error(f"Failed to create Google Calendar event: {e}")
 
     def _create_calendar_event(self, task_time, message, user_id):
+
         service = get_calendar_service()
         print(f"Attempting to create calendar event at {task_time} with message: {message}")
 
@@ -66,6 +73,7 @@ class SchedulerWorker(BaseWorker):
             'description': f'Scheduled Through RYAA for {user_id}',
             'start': {
                 'dateTime': task_time.isoformat(),
+
                 'timeZone': 'America/New_York',
             },
             'end': {
@@ -78,6 +86,9 @@ class SchedulerWorker(BaseWorker):
         logger.info(f"Created Google Calendar event: {created_event.get('htmlLink')}")
 
     def execute_user_task(self, user_id, task_data):
+        """
+        Called by APScheduler when it's time to perform the scheduled task.
+        """
         logger.info(f"Executing scheduled task for user {user_id}: {task_data}")
         user_message = task_data['message']
         orchestrator_message = task_data.get('orchestrator_message', "Default orchestrator message")
@@ -90,6 +101,7 @@ class SchedulerWorker(BaseWorker):
 
         result = self.message_worker.execute(msg_state)
         logger.info(f"Task executed for user {user_id}: {result}")
+
 
     def extract_task_details(self, user_input: str):
         time_pattern = re.compile(
@@ -149,9 +161,11 @@ class SchedulerWorker(BaseWorker):
         return workflow
 
     def _execute(self, msg_state: MessageState):
+
         graph = self.action_graph.compile()
         result = graph.invoke(msg_state)
         return result
+
 
 
 
@@ -180,3 +194,4 @@ class SchedulerWorker(BaseWorker):
 #             }
 #         )
 #         print(f" Task scheduled for {parsed_time.isoformat()} EDT.")
+
